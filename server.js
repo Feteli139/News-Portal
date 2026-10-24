@@ -1,4 +1,4 @@
-Process.on('uncaughtException', (err) => {
+process.on('uncaughtException', (err) => {
     console.error('Kritik Sistem Xətası (Uncaught Exception):', err);
 });
 
@@ -21,10 +21,9 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Yaddaşda (Memory) saxlamaq üçün multer konfiqurasiyası (Railway diski sıfırlamasın deyə Base64-ə çevriləcək)
 const upload = multer({ 
     storage: multer.memoryStorage(),
-    limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
+    limits: { fileSize: 10 * 1024 * 1024 }
 });
 
 app.use(helmet({ contentSecurityPolicy: false }));
@@ -71,7 +70,6 @@ app.get('/api/news', async (req, res) => {
         const newsExpireTime = now - THREE_DAYS;
         const statsExpireTime = now - ONE_WEEK;
 
-        // Köhnə xəbərləri sil
         await supabase
             .from('news')
             .delete()
