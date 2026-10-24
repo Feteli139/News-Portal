@@ -865,8 +865,8 @@ document.addEventListener("DOMContentLoaded", () => {
         container.innerHTML = comments.map(c => `
             <div class="comment-item" style="background: var(--bg-primary); padding: 8px 12px; border-radius: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color);" data-comment-id="${c.id}">
                 <div style="font-size: 13px; word-break: break-all; padding-right: 8px;">
-                    <strong style="color: var(--accent);">${escapeHTML(c.user || 'Anonim')}:</strong> 
-                    <span style="color: var(--text-main);">${escapeHTML(c.text || c.comment || '')}</span>
+                    <strong style="color: var(--accent);">${escapeHTML(c.user)}:</strong> 
+                    <span style="color: var(--text-main);">${escapeHTML(c.text)}</span>
                 </div>
                 <button onclick="deleteComment('${newsId}', '${c.id}')" class="btn-delete-comment" style="background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); padding: 2px 6px; border-radius: 4px; cursor: pointer; font-size: 10px; flex-shrink: 0;" title="Şərhi sil">×</button>
             </div>
@@ -970,21 +970,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
             let imageHtml = news.sekil ? `
                 <div class="news-img-container" onclick="openImageModal('/sekil/${news.sekil}')">
-                    <img src="/sekil/${news.sekil}" class="news-img-main" alt="Xəbər şəkli" loading="lazy" onerror="this.parentElement.style.display='none'">
+                    <img src="/sekil/${news.sekil}" class="news-img-main" alt="Xəbər şəkli" onerror="this.parentElement.style.display='none'">
                 </div>
             ` : "";
             
             let videoHtml = "";
             if (news.videoFile) {
-                videoHtml = `<video controls class="news-media" loading="lazy" style="width:100%; max-height:380px; border-radius:12px; margin:14px 0;"><source src="/sekil/${news.videoFile}" type="video/mp4">Brauzeriniz videonu dəstəkləmir.</video>`;
+                videoHtml = `<video controls class="news-media" style="width:100%; max-height:380px; border-radius:12px; margin:14px 0;"><source src="/sekil/${news.videoFile}" type="video/mp4">Brauzeriniz videonu dəstəkləmir.</video>`;
             } else if (news.videoUrl) {
                 if (news.videoUrl.includes("youtube.com") || news.videoUrl.includes("youtu.be")) {
                     let embedUrl = news.videoUrl;
                     if (embedUrl.includes("watch?v=")) embedUrl = embedUrl.replace("watch?v=", "embed/");
                     if (embedUrl.includes("youtu.be/")) embedUrl = embedUrl.replace("youtu.be/", "www.youtube.com/embed/");
-                    videoHtml = `<div style="position:relative; padding-bottom:56.25%; height:0; margin:14px 0;"><iframe src="${embedUrl}" loading="lazy" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0; border-radius:12px;" allowfullscreen></iframe></div>`;
+                    videoHtml = `<div style="position:relative; padding-bottom:56.25%; height:0; margin:14px 0;"><iframe src="${embedUrl}" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0; border-radius:12px;" allowfullscreen></iframe></div>`;
                 } else {
-                    videoHtml = `<video controls class="news-media" loading="lazy" style="width:100%; max-height:380px; border-radius:12px; margin:14px 0;"><source src="${news.videoUrl}" type="video/mp4">Brauzeriniz videonu dəstəkləmir.</video>`;
+                    videoHtml = `<video controls class="news-media" style="width:100%; max-height:380px; border-radius:12px; margin:14px 0;"><source src="${news.videoUrl}" type="video/mp4">Brauzeriniz videonu dəstəkləmir.</video>`;
                 }
             }
 
@@ -1000,18 +1000,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="news-date">${escapeHTML(news.date || t.today)}</span>
                     </div>
                 </div>
-                
-                <h3 class="news-title">
-                    <a href="/news.html?id=${newsId}" style="color: var(--accent); text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
-                        ${escapeHTML(news.displayTitle)}
-                    </a>
-                </h3>
-                <div class="news-content" style="margin-bottom: 14px;">
-                    <a href="/news.html?id=${newsId}" style="color: var(--accent); text-decoration: none; opacity: 0.9;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
-                        ${escapeHTML(news.displayContent)}
-                    </a>
-                </div>
-
+                <h3 class="news-title">${escapeHTML(news.displayTitle)}</h3>
+                <div class="news-content" style="margin-bottom: 14px;">${escapeHTML(news.displayContent)}</div>
                 ${imageHtml}
                 ${videoHtml}
                 
@@ -1077,13 +1067,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             formData.append("category", category);
             formData.append("content", contentInput.value.trim());
-            
-            // Serverin gözlədiyi həm password, həm də adminPassword eyni anda göndərilir
             formData.append("password", currentAdminPassword);
-            formData.append("adminPassword", currentAdminPassword);
-            
             formData.append("date", new Date().toLocaleString());
-            formData.append("createdAt", Date.now());
+            formData.append("createdAt",Date.now());
 
             if (newsVideoUrlInput && newsVideoUrlInput.value.trim() !== "") {
                 formData.append("videoUrl", newsVideoUrlInput.value.trim());
@@ -1106,25 +1092,28 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: formData 
             })
             .then(async res => {
-                const data = await res.json();
-                if (!res.ok) {
-                    throw new Error(data.message || "Server xətası baş verdi.");
+                const contentType = res.headers.get("content-type");
+                if (contentType && contentType.includes("application/json")) {
+                    return res.json();
+                } else {
+                    throw new Error("Server düzgün cavab qaytarmadı (API tapılmadı).");
                 }
-                return data;
             })
             .then(response => {
                 alert(response.message || "Xəbər əlavə olundu!");
-                newsForm.reset();
-                if (customCategoryInput) customCategoryInput.style.display = "none";
-                if (imagePreview) imagePreview.src = "";
-                if (imagePreviewContainer) imagePreviewContainer.style.display = "none";
-                if (adminSection) adminSection.style.display = "none";
-                if (adminBtn) adminBtn.textContent = translations[currentLang].adminPanelBtn;
-                loadNews();
+                if (response.success) {
+                    newsForm.reset();
+                    if (customCategoryInput) customCategoryInput.style.display = "none";
+                    if (imagePreview) imagePreview.src = "";
+                    if (imagePreviewContainer) imagePreviewContainer.style.display = "none";
+                    if (adminSection) adminSection.style.display = "none";
+                    if (adminBtn) adminBtn.textContent = translations[currentLang].adminPanelBtn;
+                    loadNews();
+                }
             })
             .catch(err => {
-                console.error("Xəbər göndərmə xətası:", err);
-                alert("Xəta: " + (err.message || "Şifrəni yoxlayın və yenidən cəhd edin."));
+                console.error(err);
+                alert("Xəbər göndərilərkən xəta baş verdi: " + err.message);
             })
             .finally(() => {
                 if (submitBtn) {
