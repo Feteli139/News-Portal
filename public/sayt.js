@@ -862,7 +862,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Şərhlər heç bir tərcüməyə məruz qalmır və orijinal dildə qalır
         container.innerHTML = comments.map(c => `
             <div class="comment-item" style="background: var(--bg-primary); padding: 8px 12px; border-radius: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color);" data-comment-id="${c.id}">
                 <div style="font-size: 13px; word-break: break-all; padding-right: 8px;">
@@ -969,7 +968,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             incrementViews(newsId);
 
-            // Lazy Loading tətbiq olunmuş şəkil (loading="lazy")
             let imageHtml = news.sekil ? `
                 <div class="news-img-container" onclick="openImageModal('/sekil/${news.sekil}')">
                     <img src="/sekil/${news.sekil}" class="news-img-main" alt="Xəbər şəkli" loading="lazy" onerror="this.parentElement.style.display='none'">
@@ -1003,7 +1001,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 </div>
                 
-                <!-- Başlıq və Məzmun kliklənəbilən mavi link formasında -->
                 <h3 class="news-title">
                     <a href="/news.html?id=${newsId}" style="color: var(--accent); text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
                         ${escapeHTML(news.displayTitle)}
@@ -1067,7 +1064,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (newsForm) {
         newsForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            const titleInput = document.getElementById("newsTitle}ուս");
+            // BURADAKI SƏHV DÜZƏLDİLDİ: "newsTitle}ուս" -> "newsTitle"
+            const titleInput = document.getElementById("newsTitle");
             const contentInput = document.getElementById("newsContent");
             if (!titleInput || !contentInput) return;
 
