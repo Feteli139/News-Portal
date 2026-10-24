@@ -21,9 +21,10 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// Heç nə silinmir: Şəkilləri yaddaşda tutub bazaya yazırıq ki, Railway silməsin
 const upload = multer({ 
     storage: multer.memoryStorage(),
-    limits: { fileSize: 10 * 1024 * 1024 }
+    limits: { fileSize: 50 * 1024 * 1024 }
 });
 
 app.use(helmet({ contentSecurityPolicy: false }));
@@ -373,12 +374,12 @@ app.delete('/api/news/:newsId/comment/:commentId', adminLimiter, async (req, res
         let comments = item.comments || [];
         comments = comments.filter(c => String(c.id) !== commentId);
 
-        const { error: updateError } = await supabase
+        const { error: updateDate } = await supabase
             .from('news')
             .update({ comments: comments })
             .eq('id', newsId);
 
-        if (updateError) throw updateError;
+        if (updateDate) throw updateDate;
 
         res.json({ success: true, comments: comments });
     } catch (err) {
