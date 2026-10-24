@@ -1064,7 +1064,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (newsForm) {
         newsForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            // BURADAKI SƏHV DÜZƏLDİLDİ: "newsTitle}ուս" -> "newsTitle"
             const titleInput = document.getElementById("newsTitle");
             const contentInput = document.getElementById("newsContent");
             if (!titleInput || !contentInput) return;
@@ -1078,7 +1077,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             formData.append("category", category);
             formData.append("content", contentInput.value.trim());
+            
+            // Serverin gözlədiyi həm password, həm də adminPassword eyni anda göndərilir
             formData.append("password", currentAdminPassword);
+            formData.append("adminPassword", currentAdminPassword);
+            
             formData.append("date", new Date().toLocaleString());
             formData.append("createdAt", Date.now());
 
@@ -1102,20 +1105,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: 'POST',
                 body: formData 
             })
-            .then(res => res.json())
+            .then(async res => {
+                const data = await res.json();
+                if (!res.ok) {
+                    throw new Error(data.message || "Server xətası baş verdi.");
+                }
+                return data;
+            })
             .then(response => {
                 alert(response.message || "Xəbər əlavə olundu!");
-                if (response.success) {
-                    newsForm.reset();
-                    if (customCategoryInput) customCategoryInput.style.display = "none";
-                    if (imagePreview) imagePreview.src = "";
-                    if (imagePreviewContainer) imagePreviewContainer.style.display = "none";
-                    if (adminSection) adminSection.style.display = "none";
-                    if (adminBtn) adminBtn.textContent = translations[currentLang].adminPanelBtn;
-                    loadNews();
-                }
+                newsForm.reset();
+                if (customCategoryInput) customCategoryInput.style.display = "none";
+                if (imagePreview) imagePreview.src = "";
+                if (imagePreviewContainer) imagePreviewContainer.style.display = "none";
+                if (adminSection) adminSection.style.display = "none";
+                if (adminBtn) adminBtn.textContent = translations[currentLang].adminPanelBtn;
+                loadNews();
             })
-            .catch(() => alert("Xəbər göndərilərkən xəta baş verdi."))
+            .catch(err => {
+                console.error("Xəbər göndərmə xətası:", err);
+                alert("Xəta: " + (err.message || "Şifrəni yoxlayın və yenidən cəhd edin."));
+            })
             .finally(() => {
                 if (submitBtn) {
                     submitBtn.disabled = false;
