@@ -481,7 +481,19 @@ function changeLanguage(lang) {
     }
 
     if (typeof renderCategoryButtons === "function") renderCategoryButtons();
-    if (typeof renderNews === "function") renderNews();
+    if (typeof renderNews === "function") {
+        renderNews().then(() => {
+            // Xəbərlər tərcümə olunub yenidən yaradıldıqdan sonra şərhləri dərhal yerinə bərpa edirik
+            if (typeof allNewsData !== 'undefined' && Array.isArray(allNewsData)) {
+                allNewsData.forEach(news => {
+                    const newsId = news.id || news._id;
+                    if (news.comments && typeof renderCommentsList === 'function') {
+                        renderCommentsList(newsId, news.comments);
+                    }
+                });
+            }
+        });
+    }
 }
 
 function trackDailyUniqueVisit() {
@@ -969,14 +981,14 @@ document.addEventListener("DOMContentLoaded", () => {
             incrementViews(newsId);
 
             let imageHtml = news.sekil ? `
-                <div class="news-img-container" onclick="openImageModal('/sekil/${news.sekil}')">
-                    <img src="/sekil/${news.sekil}" class="news-img-main" alt="Xəbər şəkli" onerror="this.parentElement.style.display='none'">
+                <div class="news-img-container" onclick="openImageModal('${news.sekil}')">
+                    <img src="${news.sekil}" class="news-img-main" alt="Xəbər şəkli" onerror="this.parentElement.style.display='none'">
                 </div>
             ` : "";
             
             let videoHtml = "";
             if (news.videoFile) {
-                videoHtml = `<video controls class="news-media" style="width:100%; max-height:380px; border-radius:12px; margin:14px 0;"><source src="/sekil/${news.videoFile}" type="video/mp4">Brauzeriniz videonu dəstəkləmir.</video>`;
+                videoHtml = `<video controls class="news-media" style="width:100%; max-height:380px; border-radius:12px; margin:14px 0;"><source src="${news.videoFile}" type="video/mp4">Brauzeriniz videonu dəstəkləmir.</video>`;
             } else if (news.videoUrl) {
                 if (news.videoUrl.includes("youtube.com") || news.videoUrl.includes("youtu.be")) {
                     let embedUrl = news.videoUrl;
