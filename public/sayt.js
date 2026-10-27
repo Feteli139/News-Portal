@@ -439,32 +439,15 @@ function containsBadWord(text) {
 
 let currentLang = localStorage.getItem("lang") || "az";
 let searchQuery = "";
-let allNewsData = [];
-let displayedCount = 5; 
-let selectedCategory = "Hamısı";
-let isLoadingNews = false;
-
-const translationCache = {};
 
 async function translateText(text, targetLang) {
     if (!text || targetLang === 'az') return text;
-    
-    const cacheKey = `${targetLang}_${text}`;
-    if (translationCache[cacheKey]) {
-        return translationCache[cacheKey];
-    }
-
     try {
         const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=az&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`);
-        if (!res.ok) return text;
-
         const data = await res.json();
-        if (!data || !data[0]) return text;
-        
-        const translated = data[0].map(item => item[0]).join('');
-        translationCache[cacheKey] = translated;
-        return translated;
+        return data[0].map(item => item[0]).join('');
     } catch (err) {
+        console.error("Tərcümə xətası:", err);
         return text;
     }
 }
@@ -499,7 +482,16 @@ function changeLanguage(lang) {
 
     if (typeof renderCategoryButtons === "function") renderCategoryButtons();
     if (typeof renderNews === "function") {
-        renderNews();
+        renderNews().then(() => {
+            if (typeof allNewsData !== 'undefined' && Array.isArray(allNewsData)) {
+                allNewsData.forEach(news => {
+                    const newsId = news.id || news._id;
+                    if (news.comments && typeof renderCommentsList === 'function') {
+                        renderCommentsList(newsId, news.comments);
+                    }
+                });
+            }
+        });
     }
 }
 
@@ -530,8 +522,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("searchInput");
     if (searchInput) {
         searchInput.addEventListener("input", (e) => {
-            searchQuery = e.target.value.trim();
-            displayedCount = 5; 
+            searchQuery = e.target.value.trim().toLowerCase();
             renderNews();
         });
     }
@@ -573,6 +564,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const adminMainContent = document.getElementById("adminMainContent");
     const adminLoginBox = document.getElementById("adminLoginBox");
 
+    let selectedCategory = "Hamısı";
+    let allNewsData = [];
+    let displayedCount = 5; 
     const MAX_CATEGORIES = 8;
     let currentAdminPassword = ""; 
 
@@ -870,7 +864,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(() => alert("Şərh silinərkən xəta baş verdi."));
     };
 
-    window.renderCommentsList = function(newsId, comments) {
+    function renderCommentsList(newsId, comments) {
         const container = document.getElementById(`comments-container-${newsId}`) || document.getElementById(`comments-list-${newsId}`);
         if (!container) return;
 
@@ -940,16 +934,9 @@ document.addEventListener("DOMContentLoaded", () => {
             : validNews.filter(news => news.category && news.category.trim() === selectedCategory.trim());
 
         const t = translations[currentLang];
-        const newsToDisplay = filteredNews.slice(0, displayedCount);
 
-        for (let news of newsToDisplay) {
-            const card = document.createElement("div");
-            card.className = "news-card";
-            const newsId = news.id || news._id;
-            card.setAttribute('data-id', newsId);
-
-            incrementViews(newsId);
-
+        let translatedNewsList = [];
+        for (let news of filteredNews) {
             const translatedTitle = await translateText(news.title, currentLang);
             const translatedContent = await translateText(news.content, currentLang);
             
@@ -959,6 +946,38 @@ document.addEventListener("DOMContentLoaded", () => {
             } else if (news.category && currentLang !== 'az') {
                 translatedCategory = await translateText(news.category, currentLang);
             }
+
+            translatedNewsList.push({
+                ...news,
+                displayTitle: translatedTitle,
+                displayContent: translatedContent,
+                displayCategory: translatedCategory
+            });
+        }
+
+        // Axtarış filtri
+        if (searchQuery !== "") {
+            translatedNewsList = translatedNewsList.filter(news => 
+                news.displayTitle.toLowerCase().includes(searchQuery) || 
+                news.displayContent.toLowerCase().includes(searchQuery) ||
+                news.displayCategory.toLowerCase().includes(searchQuery)
+            );
+        }
+
+        if (translatedNewsList.length === 0) {
+            newsContainer.innerHTML = `<p style='text-align:center; color:var(--text-muted); padding: 40px;'>${t.noNewsInCategory}</p>`;
+            return;
+        }
+
+        const newsToDisplay = translatedNewsList.slice(0, displayedCount);
+
+        for (let news of newsToDisplay) {
+            const card = document.createElement("div");
+            card.className = "news-card";
+            const newsId = news.id || news._id;
+            card.setAttribute('data-id', newsId);
+
+            incrementViews(newsId);
 
             let imageHtml = news.sekil ? `
                 <div class="news-img-container" onclick="openImageModal('${news.sekil}')">
@@ -986,14 +1005,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             card.innerHTML = `
                 <div class="news-header-info" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                    <span class="news-category news-category-badge" style="margin:0;">${escapeHTML(translatedCategory)}</span>
+                    <span class="news-category news-category-badge" style="margin:0;">${escapeHTML(news.displayCategory)}</span>
                     <div style="display: flex; gap: 12px; font-size: 12px; color: var(--text-muted);">
                         <span>${t.viewsLabel} ${viewsCount}</span>
                         <span class="news-date">${escapeHTML(news.date || t.today)}</span>
                     </div>
                 </div>
-                <h3 class="news-title">${escapeHTML(translatedTitle)}</h3>
-                <div class="news-content" style="margin-bottom: 14px;">${escapeHTML(translatedContent)}</div>
+                <h3 class="news-title">${escapeHTML(news.displayTitle)}</h3>
+                <div class="news-content" style="margin-bottom: 14px;">${escapeHTML(news.displayContent)}</div>
                 ${imageHtml}
                 ${videoHtml}
                 
@@ -1006,7 +1025,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         🔗 ${t.copyBtn.replace('🔗 ', '')}
                     </button>
 
-                    <button onclick="shareOnWhatsApp('${escapeHTML(translatedTitle)}', '${currentNewsUrl}')" class="share-btn whatsapp-btn" style="background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); padding: 7px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.2s;">
+                    <button onclick="shareOnWhatsApp('${escapeHTML(news.displayTitle)}', '${currentNewsUrl}')" class="share-btn whatsapp-btn" style="background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); padding: 7px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.2s;">
                         💬 ${t.whatsappBtn.replace('💬 ', '')}
                     </button>
 
@@ -1029,20 +1048,6 @@ document.addEventListener("DOMContentLoaded", () => {
             renderCommentsList(newsId, news.comments);
         }
     }
-
-    window.addEventListener('scroll', () => {
-        if (isLoadingNews) return;
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
-            const validNews = allNewsData.filter(news => news.category !== 'SYSTEM_VISITS');
-            if (displayedCount < validNews.length) {
-                isLoadingNews = true;
-                displayedCount += 5; 
-                renderNews().finally(() => {
-                    isLoadingNews = false;
-                });
-            }
-        }
-    });
 
     function loadNews() {
         fetch('/api/news')
