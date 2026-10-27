@@ -442,14 +442,28 @@ let searchQuery = "";
 let allNewsData = [];
 let displayedCount = 5; 
 let selectedCategory = "Hamısı";
-let isLoadingNews = false; // Təkrar sorğu və dublikatın qarşısını almaq üçün qoruma
+let isLoadingNews = false;
+
+// Tərcümə keşləməsi ilə API-nin donmasının qarşısı alınır
+const translationCache = {};
 
 async function translateText(text, targetLang) {
     if (!text || targetLang === 'az') return text;
+    
+    const cacheKey = `${targetLang}_${text}`;
+    if (translationCache[cacheKey]) {
+        return translationCache[cacheKey];
+    }
+
     try {
         const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=az&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`);
+        if (!res.ok) return text;
+
         const data = await res.json();
-        return data[0].map(item => item[0]).join('');
+        const translated = data[0].map(item => item[0]).join('');
+        
+        translationCache[cacheKey] = translated;
+        return translated;
     } catch (err) {
         console.error("Tərcümə xətası:", err);
         return text;
@@ -866,7 +880,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(() => alert("Şərh silinərkən xəta baş verdi."));
     };
 
-    function renderCommentsList(newsId, comments) {
+    window.renderCommentsList = function(newsId, comments) {
         const container = document.getElementById(`comments-container-${newsId}`) || document.getElementById(`comments-list-${newsId}`);
         if (!container) return;
 
@@ -927,8 +941,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.renderNews = async function() {
         if (!newsContainer) return;
-        
-        // Konteyneri əvvəlcədən təmizləyirik ki, eyni xəbərlər təkrar-təkrar yığılmasın
         newsContainer.innerHTML = "";
         
         const validNews = allNewsData.filter(news => news.category !== 'SYSTEM_VISITS');
@@ -1053,7 +1065,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Scroll edildikcə təkrar sorğu göndərmədən səliqəli şəkildə növbəti 5 xəbəri açırıq
     window.addEventListener('scroll', () => {
         if (isLoadingNews) return;
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
