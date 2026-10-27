@@ -483,7 +483,6 @@ function changeLanguage(lang) {
     if (typeof renderCategoryButtons === "function") renderCategoryButtons();
     if (typeof renderNews === "function") {
         renderNews().then(() => {
-            // Xəbərlər tərcümə olunub yenidən yaradıldıqdan sonra şərhləri dərhal yerinə bərpa edirik
             if (typeof allNewsData !== 'undefined' && Array.isArray(allNewsData)) {
                 allNewsData.forEach(news => {
                     const newsId = news.id || news._id;
@@ -524,6 +523,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (searchInput) {
         searchInput.addEventListener("input", (e) => {
             searchQuery = e.target.value.trim();
+            displayedCount = 5; // Axtarış edəndə sayğacı sıfırlayırıq
             renderNews();
         });
     }
@@ -1049,6 +1049,17 @@ document.addEventListener("DOMContentLoaded", () => {
             renderCommentsList(newsId, news.comments);
         }
     }
+
+    // Səhifəni aşağı sürüşdürdükcə növbəti xəbərlərin avtomatik yüklənməsi (Infinite Scroll)
+    window.addEventListener('scroll', () => {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
+            const validNews = allNewsData.filter(news => news.category !== 'SYSTEM_VISITS');
+            if (displayedCount < validNews.length) {
+                displayedCount += 5; 
+                renderNews();
+            }
+        }
+    });
 
     function loadNews() {
         fetch('/api/news')
