@@ -523,7 +523,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (searchInput) {
         searchInput.addEventListener("input", (e) => {
             searchQuery = e.target.value.trim();
-            displayedCount = 5; // Axtarış edəndə sayğacı sıfırlayırıq
+            displayedCount = 5; 
             renderNews();
         });
     }
@@ -1050,7 +1050,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Səhifəni aşağı sürüşdürdükcə növbəti xəbərlərin avtomatik yüklənməsi (Infinite Scroll)
     window.addEventListener('scroll', () => {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
             const validNews = allNewsData.filter(news => news.category !== 'SYSTEM_VISITS');
