@@ -439,6 +439,10 @@ function containsBadWord(text) {
 
 let currentLang = localStorage.getItem("lang") || "az";
 let searchQuery = "";
+let allNewsData = [];
+let displayedCount = 5; 
+let selectedCategory = "Hamısı";
+let isLoadingNews = false; // Təkrar sorğu və dublikatın qarşısını almaq üçün qoruma
 
 async function translateText(text, targetLang) {
     if (!text || targetLang === 'az') return text;
@@ -483,7 +487,7 @@ function changeLanguage(lang) {
     if (typeof renderCategoryButtons === "function") renderCategoryButtons();
     if (typeof renderNews === "function") {
         renderNews().then(() => {
-            if (typeof allNewsData !== 'undefined' && Array.isArray(allNewsData)) {
+            if (Array.isArray(allNewsData)) {
                 allNewsData.forEach(news => {
                     const newsId = news.id || news._id;
                     if (news.comments && typeof renderCommentsList === 'function') {
@@ -565,9 +569,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const adminMainContent = document.getElementById("adminMainContent");
     const adminLoginBox = document.getElementById("adminLoginBox");
 
-    let selectedCategory = "Hamısı";
-    let allNewsData = [];
-    let displayedCount = 5; 
     const MAX_CATEGORIES = 8;
     let currentAdminPassword = ""; 
 
@@ -926,6 +927,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.renderNews = async function() {
         if (!newsContainer) return;
+        
+        // Konteyneri əvvəlcədən təmizləyirik ki, eyni xəbərlər təkrar-təkrar yığılmasın
         newsContainer.innerHTML = "";
         
         const validNews = allNewsData.filter(news => news.category !== 'SYSTEM_VISITS');
@@ -1050,12 +1053,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Scroll edildikcə təkrar sorğu göndərmədən səliqəli şəkildə növbəti 5 xəbəri açırıq
     window.addEventListener('scroll', () => {
+        if (isLoadingNews) return;
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
             const validNews = allNewsData.filter(news => news.category !== 'SYSTEM_VISITS');
             if (displayedCount < validNews.length) {
+                isLoadingNews = true;
                 displayedCount += 5; 
-                renderNews();
+                renderNews().finally(() => {
+                    isLoadingNews = false;
+                });
             }
         }
     });
