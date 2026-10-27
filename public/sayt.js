@@ -444,7 +444,6 @@ let displayedCount = 5;
 let selectedCategory = "Hamısı";
 let isLoadingNews = false;
 
-// Tərcüməni keşləmək üçün obyekti
 const translationCache = {};
 
 async function translateText(text, targetLang) {
@@ -500,16 +499,7 @@ function changeLanguage(lang) {
 
     if (typeof renderCategoryButtons === "function") renderCategoryButtons();
     if (typeof renderNews === "function") {
-        renderNews().then(() => {
-            if (Array.isArray(allNewsData)) {
-                allNewsData.forEach(news => {
-                    const newsId = news.id || news._id;
-                    if (news.comments && typeof renderCommentsList === 'function') {
-                        renderCommentsList(newsId, news.comments);
-                    }
-                });
-            }
-        });
+        renderNews();
     }
 }
 
@@ -950,7 +940,6 @@ document.addEventListener("DOMContentLoaded", () => {
             : validNews.filter(news => news.category && news.category.trim() === selectedCategory.trim());
 
         const t = translations[currentLang];
-
         const newsToDisplay = filteredNews.slice(0, displayedCount);
 
         for (let news of newsToDisplay) {
@@ -961,7 +950,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             incrementViews(newsId);
 
-            // Lazy loading və təkrar tərcümə qoruması ilə elementləri tərcümə edirik
             const translatedTitle = await translateText(news.title, currentLang);
             const translatedContent = await translateText(news.content, currentLang);
             
@@ -1042,7 +1030,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Lazy Loading: Səhifə aşağı endikcə növbəti xəbərləri dərhal açırıq
     window.addEventListener('scroll', () => {
         if (isLoadingNews) return;
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
@@ -1100,7 +1087,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const videoFile = newsVideoFileInput && newsVideoFileInput.files[0] ? newsVideoFileInput.files[0] : null;
             if (videoFile) formData.append("newsVideoFile", videoFile);
 
-            const submitBtn = newsForm.querySelector('.submit-dfbtn') || newsForm.querySelector('button[type="submit"]');
+            const submitBtn = newsForm.querySelector('.submit-btn') || newsForm.querySelector('button[type="submit"]');
             if (submitBtn) {
                 submitBtn.disabled = true;
                 submitBtn.textContent = "Paylaşılır...";
