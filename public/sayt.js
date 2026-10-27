@@ -444,7 +444,7 @@ let displayedCount = 5;
 let selectedCategory = "Hamısı";
 let isLoadingNews = false;
 
-// Tərcümə keşləməsi ilə API-nin donmasının qarşısı alınır
+// Tərcümə keşləməsi - API limitə düşəndə saytın donmasının qarşısını alır
 const translationCache = {};
 
 async function translateText(text, targetLang) {
@@ -457,15 +457,21 @@ async function translateText(text, targetLang) {
 
     try {
         const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=az&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`);
-        if (!res.ok) return text;
+        
+        // Əgər API sorğunu bloklayarsa (məsələn 429 xətası), sayt çökməsin deyə orijinal mətni qaytarırıq
+        if (!res.ok) {
+            return text;
+        }
 
         const data = await res.json();
+        if (!data || !data[0]) return text;
+        
         const translated = data[0].map(item => item[0]).join('');
         
         translationCache[cacheKey] = translated;
         return translated;
     } catch (err) {
-        console.error("Tərcümə xətası:", err);
+        console.warn("Tərcümə limitə düşdü və ya şəbəkə xətası baş verdi, orijinal mətn göstərilir:", err);
         return text;
     }
 }
