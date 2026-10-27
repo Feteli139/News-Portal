@@ -439,15 +439,33 @@ function containsBadWord(text) {
 
 let currentLang = localStorage.getItem("lang") || "az";
 let searchQuery = "";
+let allNewsData = [];
+let displayedCount = 5; 
+let selectedCategory = "Hamısı";
+let isLoadingNews = false;
+
+// Tərcümə keş yaddaşı (API limitə düşməsin deyə)
+const translationCache = {};
 
 async function translateText(text, targetLang) {
     if (!text || targetLang === 'az') return text;
+    
+    const cacheKey = `${targetLang}_${text}`;
+    if (translationCache[cacheKey]) {
+        return translationCache[cacheKey];
+    }
+
     try {
         const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=az&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`);
+        if (!res.ok) return text;
+
         const data = await res.json();
-        return data[0].map(item => item[0]).join('');
+        if (!data || !data[0]) return text;
+        
+        const translated = data[0].map(item => item[0]).join('');
+        translationCache[cacheKey] = translated;
+        return translated;
     } catch (err) {
-        console.error("Tərcümə xətası:", err);
         return text;
     }
 }
@@ -483,7 +501,7 @@ function changeLanguage(lang) {
     if (typeof renderCategoryButtons === "function") renderCategoryButtons();
     if (typeof renderNews === "function") {
         renderNews().then(() => {
-            if (typeof allNewsData !== 'undefined' && Array.isArray(allNewsData)) {
+            if (Array.isArray(allNewsData)) {
                 allNewsData.forEach(news => {
                     const newsId = news.id || news._id;
                     if (news.comments && typeof renderCommentsList === 'function') {
@@ -523,6 +541,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (searchInput) {
         searchInput.addEventListener("input", (e) => {
             searchQuery = e.target.value.trim().toLowerCase();
+            displayedCount = 5;
             renderNews();
         });
     }
@@ -564,9 +583,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const adminMainContent = document.getElementById("adminMainContent");
     const adminLoginBox = document.getElementById("adminLoginBox");
 
-    let selectedCategory = "Hamısı";
-    let allNewsData = [];
-    let displayedCount = 5; 
     const MAX_CATEGORIES = 8;
     let currentAdminPassword = ""; 
 
@@ -864,7 +880,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(() => alert("Şərh silinərkən xəta baş verdi."));
     };
 
-    function renderCommentsList(newsId, comments) {
+    window.renderCommentsList = function(newsId, comments) {
         const container = document.getElementById(`comments-container-${newsId}`) || document.getElementById(`comments-list-${newsId}`);
         if (!container) return;
 
@@ -955,7 +971,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // Axtarış filtri
         if (searchQuery !== "") {
             translatedNewsList = translatedNewsList.filter(news => 
                 news.displayTitle.toLowerCase().includes(searchQuery) || 
@@ -1048,6 +1063,21 @@ document.addEventListener("DOMContentLoaded", () => {
             renderCommentsList(newsId, news.comments);
         }
     }
+
+    // Lazy Loading: Aşağı sürüşdürdükcə növbəti xəbərlər açılır
+    window.addEventListener('scroll', () => {
+        if (isLoadingNews) return;
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
+            const validNews = allNewsData.filter(news => news.category !== 'SYSTEM_VISITS');
+            if (displayedCount < validNews.length) {
+                isLoadingNews = true;
+                displayedCount += 5; 
+                renderNews().finally(() => {
+                    isLoadingNews = false;
+                });
+            }
+        }
+    });
 
     function loadNews() {
         fetch('/api/news')
