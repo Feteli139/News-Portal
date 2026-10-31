@@ -1,7 +1,7 @@
 const translations = {
     az: {
-        pageTitle: "Mənim Xəbər Portalım",
-        navTitle: "Xəbər Portalı",
+        pageTitle: "AzerbaijanInfo",
+        navTitle: "AzerbaijanInfo",
         adminPanelBtn: "⚙️ Admin Panel",
         closePanelBtn: "✕ Paneli Bağla",
         adminLoginTitle: "🔐 Admin Girişi",
@@ -39,12 +39,12 @@ const translations = {
         today: "Bu gün",
         allCategory: "Hamısı",
         searchInputPlaceholder: "🔍 Xəbərlərdə axtarış et...",
-        viewsLabel: "👀 Baxış:"
+        viewsLabel: "👀 Baxış:",
+        neverDelete: "🔒 Heç vaxt silinməsin"
     },
-
     en: {
-        pageTitle: "My News Portal",
-        navTitle: "News Portal",
+        pageTitle: "AzerbaijanInfo",
+        navTitle: "AzerbaijanInfo",
         adminPanelBtn: "⚙️ Admin Panel",
         closePanelBtn: "✕ Close Panel",
         adminLoginTitle: "🔐 Admin Login",
@@ -82,12 +82,12 @@ const translations = {
         today: "Today",
         allCategory: "All",
         searchInputPlaceholder: "🔍 Search news...",
-        viewsLabel: "👀 Views:"
+        viewsLabel: "👀 Views:",
+        neverDelete: "🔒 Never delete"
     },
-
     de: {
-        pageTitle: "Mein Nachrichtenportal",
-        navTitle: "Nachrichtenportal",
+        pageTitle: "AzerbaijanInfo",
+        navTitle: "AzerbaijanInfo",
         adminPanelBtn: "⚙️ Admin-Panel",
         closePanelBtn: "✕ Panel schließen",
         adminLoginTitle: "🔐 Admin-Anmeldung",
@@ -125,12 +125,12 @@ const translations = {
         today: "Heute",
         allCategory: "Alle",
         searchInputPlaceholder: "🔍 Nachrichten suchen...",
-        viewsLabel: "👀 Aufrufe:"
+        viewsLabel: "👀 Aufrufe:",
+        neverDelete: "🔒 Niemals löschen"
     },
-
     tr: {
-        pageTitle: "Benim Haber Portalım",
-        navTitle: "Haber Portalı",
+        pageTitle: "AzerbaijanInfo",
+        navTitle: "AzerbaijanInfo",
         adminPanelBtn: "⚙️ Admin Panel",
         closePanelBtn: "✕ Paneli Kapat",
         adminLoginTitle: "🔐 Admin Girişi",
@@ -168,12 +168,12 @@ const translations = {
         today: "Bugün",
         allCategory: "Tümü",
         searchInputPlaceholder: "🔍 Haberlerde ara...",
-        viewsLabel: "👀 Görüntülenme:"
+        viewsLabel: "👀 Görüntülenme:",
+        neverDelete: "🔒 Asla silinmesin"
     },
-
     ru: {
-        pageTitle: "Мой Новостной Портал",
-        navTitle: "Новостной Портал",
+        pageTitle: "AzerbaijanInfo",
+        navTitle: "AzerbaijanInfo",
         adminPanelBtn: "⚙️ Админ Панель",
         closePanelBtn: "✕ Закрыть панель",
         adminLoginTitle: "🔐 Вход",
@@ -211,12 +211,12 @@ const translations = {
         today: "Сегодня",
         allCategory: "Все",
         searchInputPlaceholder: "🔍 Поиск новостей...",
-        viewsLabel: "👀 Просмотры:"
+        viewsLabel: "👀 Просмотры:",
+        neverDelete: "🔒 Никогда не удалять"
     },
-
     es: {
-        pageTitle: "Mi Portal de Noticias",
-        navTitle: "Portal de Noticias",
+        pageTitle: "AzerbaijanInfo",
+        navTitle: "AzerbaijanInfo",
         adminPanelBtn: "⚙️ Admin",
         closePanelBtn: "✕ Cerrar",
         adminLoginTitle: "🔐 Acceso",
@@ -254,12 +254,12 @@ const translations = {
         today: "Hoy",
         allCategory: "Todo",
         searchInputPlaceholder: "🔍 Buscar noticias...",
-        viewsLabel: "👀 Vistas:"
+        viewsLabel: "👀 Vistas:",
+        neverDelete: "🔒 No eliminar nunca"
     },
-
     fr: {
-        pageTitle: "Mon Portail d'Actualités",
-        navTitle: "Portail d'Actualités",
+        pageTitle: "AzerbaijanInfo",
+        navTitle: "AzerbaijanInfo",
         adminPanelBtn: "⚙️ Admin",
         closePanelBtn: "✕ Fermer",
         adminLoginTitle: "🔐 Connexion",
@@ -297,12 +297,12 @@ const translations = {
         today: "Aujourd'hui",
         allCategory: "Tout",
         searchInputPlaceholder: "🔍 Rechercher des actualités...",
-        viewsLabel: "👀 Vues:"
+        viewsLabel: "👀 Vues:",
+        neverDelete: "🔒 Ne jamais supprimer"
     },
-
     it: {
-        pageTitle: "Il mio Portale di Notizie",
-        navTitle: "Portale Notizie",
+        pageTitle: "AzerbaijanInfo",
+        navTitle: "AzerbaijanInfo",
         adminPanelBtn: "⚙️ Admin",
         closePanelBtn: "✕ Chiudi",
         adminLoginTitle: "🔐 Accesso",
@@ -340,12 +340,12 @@ const translations = {
         today: "Oggi",
         allCategory: "Tutti",
         searchInputPlaceholder: "🔍 Cerca notizie...",
-        viewsLabel: "👀 Visualizzazioni:"
+        viewsLabel: "👀 Visualizzazioni:",
+        neverDelete: "🔒 Non eliminare mai"
     },
-
     ar: {
-        pageTitle: "بوابتي الإخبارية",
-        navTitle: "بوابة الأخبار",
+        pageTitle: "AzerbaijanInfo",
+        navTitle: "AzerbaijanInfo",
         adminPanelBtn: "⚙️ لوحة التحكم",
         closePanelBtn: "✕ إغلاق",
         adminLoginTitle: "🔐 تسجيل الدخول",
@@ -383,12 +383,12 @@ const translations = {
         today: "اليوم",
         allCategory: "الكل",
         searchInputPlaceholder: "🔍 البحث في الأخبار...",
-        viewsLabel: "👀 المشاهدات:"
+        viewsLabel: "👀 المشاهدات:",
+        neverDelete: "🔒 لا تحذف أبداً"
     },
-
     zh: {
-        pageTitle: "我的新闻门户",
-        navTitle: "新闻门户",
+        pageTitle: "AzerbaijanInfo",
+        navTitle: "AzerbaijanInfo",
         adminPanelBtn: "⚙️ 管理面板",
         closePanelBtn: "✕ 关闭",
         adminLoginTitle: "🔐 管理员登录",
@@ -426,88 +426,24 @@ const translations = {
         today: "今天",
         allCategory: "全部",
         searchInputPlaceholder: "🔍 搜索新闻...",
-        viewsLabel: "👀 浏览量:"
+        viewsLabel: "👀 浏览量:",
+        neverDelete: "🔒 永不删除"
     }
 };
 
 const categoryTranslations = {
-    "Hamısı": {
-        az: "Hamısı",
-        en: "All",
-        de: "Alle",
-        tr: "Tümü",
-        ru: "Все",
-        es: "Todo",
-        fr: "Tout",
-        it: "Tutti",
-        ar: "الكل",
-        zh: "全部"
-    },
-    "Siyasət": {
-        az: "Siyasət",
-        en: "Politics",
-        de: "Politik",
-        tr: "Siyaset",
-        ru: "Политика",
-        es: "Política",
-        fr: "Politique",
-        it: "Politica",
-        ar: "سياسة",
-        zh: "政治"
-    },
-    "İdman": {
-        az: "İdman",
-        en: "Sports",
-        de: "Sport",
-        tr: "Spor",
-        ru: "Спорт",
-        es: "Deportes",
-        fr: "Sports",
-        it: "Sport",
-        ar: "رياضة",
-        zh: "体育"
-    },
-    "İqtisadiyyat": {
-        az: "İqtisadiyyat",
-        en: "Economy",
-        de: "Wirtschaft",
-        tr: "Ekonomi",
-        ru: "Экономика",
-        es: "Economía",
-        fr: "Économie",
-        it: "Economia",
-        ar: "اقتصاد",
-        zh: "经济"
-    },
-    "Maraqlı": {
-        az: "Maraqlı",
-        en: "Interesting",
-        de: "Interessant",
-        tr: "İlginç",
-        ru: "Интересно",
-        es: "Interesante",
-        fr: "Intéressant",
-        it: "Interessante",
-        ar: "مثير للاهتمام",
-        zh: "趣闻"
-    }
+    "Hamısı": { az: "Hamısı", en: "All", de: "Alle", tr: "Tümü", ru: "Все", es: "Todo", fr: "Tout", it: "Tutti", ar: "الكل", zh: "全部" },
+    "Siyasət": { az: "Siyasət", en: "Politics", de: "Politik", tr: "Siyaset", ru: "Политика", es: "Política", fr: "Politique", it: "Politica", ar: "سياسة", zh: "政治" },
+    "İdman": { az: "İdman", en: "Sports", de: "Sport", tr: "Spor", ru: "Спорт", es: "Deportes", fr: "Sports", it: "Sport", ar: "رياضة", zh: "体育" },
+    "İqtisadiyyat": { az: "İqtisadiyyat", en: "Economy", de: "Wirtschaft", tr: "Ekonomi", ru: "Экономика", es: "Economía", fr: "Économie", it: "Economia", ar: "اقتصاد", zh: "经济" },
+    "Maraqlı": { az: "Maraqlı", en: "Interesting", de: "Interessant", tr: "İlginç", ru: "Интересно", es: "Interesante", fr: "Intéressant", it: "Interessante", ar: "مثير للاهتمام", zh: "趣闻" }
 };
 
-const badWords = [
-    "öl",
-    "gicbəsər",
-    "kötü",
-    "idiot",
-    "təhqir",
-    "manyak",
-    "erməni"
-];
+const badWords = ["öl", "gicbəsər", "kötü", "idiot", "təhqir", "manyak", "erməni"];
 
 function containsBadWord(text) {
     if (!text) return false;
-
-    const lowerText = text.toLowerCase();
-
+    const lowerText = String(text).toLowerCase();
     return badWords.some(word => lowerText.includes(word));
 }
 
@@ -518,51 +454,52 @@ let displayedCount = 5;
 let selectedCategory = "Hamısı";
 let isLoadingNews = false;
 
+function isNewsNeverDelete(news) {
+    return Boolean(news && (
+        news.neverDelete === true ||
+        news.neverDelete === "true" ||
+        news.neverDelete === 1 ||
+        news.neverDelete === "1"
+    ));
+}
+
+function isNewsPinned(news) {
+    return Boolean(news && (
+        news.pinned === true ||
+        news.pinned === "true" ||
+        news.pinned === 1 ||
+        news.pinned === "1"
+    ));
+}
+
 async function translateText(text, targetLang) {
-    if (!text || targetLang === "az") {
-        return text;
-    }
+    if (!text || targetLang === "az") return text;
 
     try {
-        const url =
-            `https://translate.googleapis.com/translate_a/single?client=gtx&sl=az&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
-
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=az&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
         const res = await fetch(url);
 
-        if (!res.ok) {
-            throw new Error(`Translation request failed: ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`Translation request failed: ${res.status}`);
 
         const data = await res.json();
+        if (!data || !data[0]) return text;
 
-        if (!data || !data[0]) {
-            return text;
-        }
-
-        return data[0]
-            .map(item => item[0])
-            .filter(Boolean)
-            .join("");
-
+        return data[0].map(item => item[0]).filter(Boolean).join("");
     } catch (err) {
         console.error("Tərcümə xətası:", err);
         return text;
     }
 }
 
-function changeLanguage(lang) {
-    if (!translations[lang]) {
-        lang = "az";
-    }
+/* DİL DƏYİŞDİKDƏ ŞƏRHLƏRİ SAXLAYAN FUNKSİYA */
+async function changeLanguage(lang) {
+    if (!translations[lang]) lang = "az";
 
     currentLang = lang;
     localStorage.setItem("lang", lang);
 
     const langSelect = document.getElementById("langSelect");
-
-    if (langSelect) {
-        langSelect.value = lang;
-    }
+    if (langSelect) langSelect.value = lang;
 
     document.querySelectorAll("[data-i18n]").forEach(el => {
         const key = el.getAttribute("data-i18n");
@@ -587,30 +524,33 @@ function changeLanguage(lang) {
         const isOpen = adminSection.style.display === "block";
 
         adminBtn.textContent = isOpen
-            ? translations[currentLang].closePanelBtn
-            : translations[currentLang].adminPanelBtn;
+            ? translations[lang].closePanelBtn
+            : translations[lang].adminPanelBtn;
     }
 
-    if (typeof renderCategoryButtons === "function") {
-        renderCategoryButtons();
+    /*
+       Şərhlər allNewsData daxilində saxlanılır.
+       Dil dəyişəndə xəbərlər yenidən çəkilir,
+       sonra hər xəbərin şərhləri yenidən göstərilir.
+    */
+    if (typeof window.renderCategoryButtons === "function") {
+        await window.renderCategoryButtons();
     }
 
-    if (typeof renderNews === "function") {
-        renderNews().then(() => {
-            if (Array.isArray(allNewsData)) {
-                allNewsData.forEach(news => {
-                    const newsId = news.id || news._id;
-
-                    if (
-                        news.comments &&
-                        typeof renderCommentsList === "function"
-                    ) {
-                        renderCommentsList(newsId, news.comments);
-                    }
-                });
-            }
-        });
+    if (typeof window.renderNews === "function") {
+        await window.renderNews();
     }
+
+    allNewsData.forEach(news => {
+        const newsId = news.id || news._id;
+
+        if (newsId && typeof window.renderCommentsList === "function") {
+            window.renderCommentsList(
+                newsId,
+                Array.isArray(news.comments) ? news.comments : []
+            );
+        }
+    });
 }
 
 function trackDailyUniqueVisit() {
@@ -620,214 +560,142 @@ function trackDailyUniqueVisit() {
     if (lastVisitDate !== todayDate) {
         fetch("/api/site/daily-visit", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                date: todayDate
-            })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ date: todayDate })
         })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    localStorage.setItem(
-                        "lastSiteVisitDate",
-                        todayDate
-                    );
-                }
-            })
-            .catch(err =>
-                console.error("Ziyarət xətası:", err)
-            );
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                localStorage.setItem("lastSiteVisitDate", todayDate);
+            }
+        })
+        .catch(err => console.error("Ziyarət xətası:", err));
     }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
     changeLanguage(currentLang);
-
     trackDailyUniqueVisit();
 
-    const searchInput =
-        document.getElementById("searchInput");
+    const searchInput = document.getElementById("searchInput");
 
     if (searchInput) {
         searchInput.addEventListener("input", e => {
-            searchQuery =
-                e.target.value.trim().toLowerCase();
-
+            searchQuery = e.target.value.trim().toLowerCase();
             displayedCount = 5;
-
             renderNews();
         });
     }
 
-    const themeToggleBtn =
-        document.getElementById("themeToggleBtn");
-
-    const savedTheme =
-        localStorage.getItem("theme");
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    const savedTheme = localStorage.getItem("theme");
 
     if (savedTheme === "light") {
         document.body.classList.add("light-mode");
-
-        if (themeToggleBtn) {
-            themeToggleBtn.textContent = "🌙";
-        }
+        if (themeToggleBtn) themeToggleBtn.textContent = "🌙";
     }
 
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener("click", () => {
-
             document.body.classList.toggle("light-mode");
 
-            const isLight =
-                document.body.classList.contains("light-mode");
+            const isLight = document.body.classList.contains("light-mode");
 
-            themeToggleBtn.textContent =
-                isLight ? "🌙" : "☀️";
-
-            localStorage.setItem(
-                "theme",
-                isLight ? "light" : "dark"
-            );
+            themeToggleBtn.textContent = isLight ? "🌙" : "☀️";
+            localStorage.setItem("theme", isLight ? "light" : "dark");
         });
     }
 
-    const adminBtn =
-        document.getElementById("adminToggleButton");
-
-    const adminSection =
-        document.getElementById("adminSection");
-
-    const newsForm =
-        document.getElementById("newsForm");
-
+    const adminBtn = document.getElementById("adminToggleButton");
+    const adminSection = document.getElementById("adminSection");
+    const newsForm = document.getElementById("newsForm");
     const newsContainer =
         document.getElementById("newsContainer") ||
         document.getElementById("news-container");
 
     const categoryButtonsContainer =
-        document.getElementById(
-            "categoryButtonsContainer"
-        );
+        document.getElementById("categoryButtonsContainer");
 
     const newsCategorySelect =
-        document.getElementById(
-            "newsCategorySelect"
-        );
+        document.getElementById("newsCategorySelect");
 
     const customCategoryInput =
-        document.getElementById(
-            "customCategoryInput"
-        );
+        document.getElementById("customCategoryInput");
 
-    const newsImageInput =
-        document.getElementById("newsImage");
-
+    const newsImageInput = document.getElementById("newsImage");
     const imagePreviewContainer =
-        document.getElementById(
-            "imagePreviewContainer"
-        );
+        document.getElementById("imagePreviewContainer");
 
-    const imagePreview =
-        document.getElementById("imagePreview");
-
-    const newsVideoFileInput =
-        document.getElementById("newsVideoFile");
-
-    const newsVideoUrlInput =
-        document.getElementById("newsVideoUrl");
-
-    const checkPasswordBtn =
-        document.getElementById(
-            "checkPasswordBtn"
-        );
-
+    const imagePreview = document.getElementById("imagePreview");
+    const newsVideoFileInput = document.getElementById("newsVideoFile");
+    const newsVideoUrlInput = document.getElementById("newsVideoUrl");
+    const checkPasswordBtn = document.getElementById("checkPasswordBtn");
     const initialAdminPassword =
-        document.getElementById(
-            "initialAdminPassword"
-        );
+        document.getElementById("initialAdminPassword");
 
     const adminMainContent =
-        document.getElementById(
-            "adminMainContent"
-        );
+        document.getElementById("adminMainContent");
 
     const adminLoginBox =
-        document.getElementById(
-            "adminLoginBox"
-        );
+        document.getElementById("adminLoginBox");
+
+    const neverDeleteCheckbox =
+        document.getElementById("neverDelete");
+
+    const pinNewsCheckbox =
+        document.getElementById("pinNewsCheckbox");
 
     const MAX_CATEGORIES = 8;
-
     let currentAdminPassword = "";
 
     if (adminBtn && adminSection) {
         adminBtn.addEventListener("click", () => {
-
             const isHidden =
                 adminSection.style.display === "none" ||
                 adminSection.style.display === "";
 
-            adminSection.style.display =
-                isHidden ? "block" : "none";
+            adminSection.style.display = isHidden ? "block" : "none";
 
-            adminBtn.textContent =
-                isHidden
-                    ? translations[currentLang].closePanelBtn
-                    : translations[currentLang].adminPanelBtn;
+            adminBtn.textContent = isHidden
+                ? translations[currentLang].closePanelBtn
+                : translations[currentLang].adminPanelBtn;
         });
     }
 
     async function renderCombinedStatsTable() {
-
         const tableBody =
-            document.getElementById(
-                "combinedStatsTableBody"
-            );
+            document.getElementById("combinedStatsTableBody");
 
         if (!tableBody) return;
 
         let htmlContent = "";
 
         try {
-
-            const res =
-                await fetch("/api/site/daily-stats");
-
-            const dailyData =
-                await res.json();
+            const res = await fetch("/api/site/daily-stats");
+            const dailyData = await res.json();
 
             if (
                 dailyData.success &&
                 dailyData.stats &&
                 dailyData.stats.length > 0
             ) {
-
                 htmlContent += `
                     <tr style="background-color: rgba(56, 189, 248, 0.15);">
-                        <td colspan="6"
-                            style="font-weight: bold; color: var(--accent);">
-                            📅 Son 7 Günlük Site Ziyaretçiləri
+                        <td colspan="6" style="font-weight: bold; color: var(--accent);">
+                            📅 Son 7 Günlük Site Ziyarətçiləri
                         </td>
                     </tr>
                 `;
 
                 dailyData.stats.forEach(row => {
-
                     htmlContent += `
                         <tr>
-                            <td colspan="2"
-                                style="font-weight: 600;">
+                            <td colspan="2" style="font-weight: 600;">
                                 📅 ${escapeHTML(row.date)}
                             </td>
-
-                            <td colspan="3"
-                                style="color: var(--accent); font-weight: bold;">
+                            <td colspan="3" style="color: var(--accent); font-weight: bold;">
                                 👤 ${row.visits} kişi
                             </td>
-
                             <td style="font-size: 11px; color: var(--text-muted);">
                                 Günlük Ziyarət
                             </td>
@@ -835,84 +703,62 @@ document.addEventListener("DOMContentLoaded", () => {
                     `;
                 });
             }
-
         } catch (err) {
             console.error("Statistika xətası:", err);
         }
 
-        const THREE_DAYS_MS =
-            3 * 24 * 60 * 60 * 1000;
-
+        const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
         const now = Date.now();
 
-        const activeNews =
-            allNewsData.filter(news => {
+        const activeNews = allNewsData.filter(news => {
+            const created = Number(news.createdAt || news.timestamp || 0);
 
-                const created =
-                    news.createdAt ||
-                    news.timestamp ||
-                    0;
-
-                return (
-                    now - created <= THREE_DAYS_MS &&
-                    news.category !== "SYSTEM_VISITS"
-                );
-            });
+            return (
+                now - created <= THREE_DAYS_MS &&
+                news.category !== "SYSTEM_VISITS"
+            );
+        });
 
         htmlContent += `
             <tr style="background-color: rgba(56, 189, 248, 0.15);">
-                <td colspan="6"
-                    style="font-weight: bold; color: var(--accent);">
+                <td colspan="6" style="font-weight: bold; color: var(--accent);">
                     📰 Son 3 Gündə Paylaşılan Xəbərlər
                 </td>
             </tr>
         `;
 
         if (activeNews.length === 0) {
-
             htmlContent += `
                 <tr>
-                    <td colspan="6"
-                        style="text-align:center; color:var(--text-muted);">
+                    <td colspan="6" style="text-align:center; color:var(--text-muted);">
                         Son 3 gündə xəbər yoxdur.
                     </td>
                 </tr>
             `;
-
         } else {
-
             activeNews.forEach(news => {
-
                 htmlContent += `
                     <tr>
-
                         <td style="font-weight: 600;">
                             ${escapeHTML(news.title)}
                         </td>
-
                         <td>
-                            <span class="news-category-badge"
-                                  style="margin:0;">
+                            <span class="news-category-badge" style="margin:0;">
                                 ${escapeHTML(news.category || "Genel")}
                             </span>
                         </td>
-
                         <td style="color: var(--accent); font-weight: bold;">
                             👀 ${news.views || 0}
                         </td>
-
                         <td style="color: #e11d48; font-weight: bold;">
                             ❤️ ${news.likes || 0}
                         </td>
-
                         <td style="color: #3b82f6; font-weight: bold;">
                             💬 ${news.comments ? news.comments.length : 0}
                         </td>
-
                         <td style="font-size: 11px; color: var(--text-muted);">
                             ${escapeHTML(news.date || "")}
                         </td>
-
                     </tr>
                 `;
             });
@@ -922,13 +768,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (checkPasswordBtn) {
-
         checkPasswordBtn.addEventListener("click", () => {
-
-            const password =
-                initialAdminPassword
-                    ? initialAdminPassword.value.trim()
-                    : "";
+            const password = initialAdminPassword
+                ? initialAdminPassword.value.trim()
+                : "";
 
             if (!password) {
                 alert("Zəhmət olmasa şifrəni daxil edin!");
@@ -937,415 +780,232 @@ document.addEventListener("DOMContentLoaded", () => {
 
             fetch("/api/news/test-auth", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    password
-                })
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ password })
             })
-                .then(res => res.json())
-                .then(data => {
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.success === true) {
+                    currentAdminPassword = password;
 
-                    if (data && data.success === true) {
+                    if (adminLoginBox) adminLoginBox.style.display = "none";
+                    if (adminMainContent) adminMainContent.style.display = "block";
 
-                        currentAdminPassword = password;
+                    const totalNewsEl = document.getElementById("totalNews");
 
-                        if (adminLoginBox) {
-                            adminLoginBox.style.display =
-                                "none";
-                        }
-
-                        if (adminMainContent) {
-                            adminMainContent.style.display =
-                                "block";
-                        }
-
-                        const totalNewsEl =
-                            document.getElementById(
-                                "totalNews"
-                            );
-
-                        if (totalNewsEl) {
-                            totalNewsEl.textContent =
-                                allNewsData.filter(
-                                    n => n.category !== "SYSTEM_VISITS"
-                                ).length;
-                        }
-
-                        const totalLikes =
-                            allNewsData.reduce(
-                                (sum, item) =>
-                                    sum + (item.likes || 0),
-                                0
-                            );
-
-                        const totalComments =
-                            allNewsData.reduce(
-                                (sum, item) =>
-                                    sum +
-                                    (item.comments
-                                        ? item.comments.length
-                                        : 0),
-                                0
-                            );
-
-                        const totalLikesEl =
-                            document.getElementById(
-                                "totalLikes"
-                            );
-
-                        const totalCommentsEl =
-                            document.getElementById(
-                                "totalComments"
-                            );
-
-                        if (totalLikesEl) {
-                            totalLikesEl.textContent =
-                                totalLikes;
-                        }
-
-                        if (totalCommentsEl) {
-                            totalCommentsEl.textContent =
-                                totalComments;
-                        }
-
-                        renderCombinedStatsTable();
-
-                    } else {
-
-                        alert(
-                            "Şifrə səhvdir! Panel açılmadı."
-                        );
+                    if (totalNewsEl) {
+                        totalNewsEl.textContent =
+                            allNewsData.filter(n => n.category !== "SYSTEM_VISITS").length;
                     }
-                })
-                .catch(() => {
-                    alert(
-                        "Şifrə səhvdir və ya serverlə əlaqə yoxdur!"
+
+                    const totalLikes = allNewsData.reduce(
+                        (sum, item) => sum + (item.likes || 0),
+                        0
                     );
-                });
+
+                    const totalComments = allNewsData.reduce(
+                        (sum, item) =>
+                            sum + (item.comments ? item.comments.length : 0),
+                        0
+                    );
+
+                    const totalLikesEl = document.getElementById("totalLikes");
+                    const totalCommentsEl =
+                        document.getElementById("totalComments");
+
+                    if (totalLikesEl) totalLikesEl.textContent = totalLikes;
+                    if (totalCommentsEl) totalCommentsEl.textContent = totalComments;
+
+                    renderCombinedStatsTable();
+                } else {
+                    alert("Şifrə səhvdir! Panel açılmadı.");
+                }
+            })
+            .catch(() => {
+                alert("Şifrə səhvdir və ya serverlə əlaqə yoxdur!");
+            });
         });
     }
 
     if (newsCategorySelect && customCategoryInput) {
-
-        newsCategorySelect.addEventListener(
-            "change",
-            () => {
-
-                if (
-                    newsCategorySelect.value ===
-                    "custom"
-                ) {
-
-                    customCategoryInput.style.display =
-                        "block";
-
-                    customCategoryInput.required =
-                        true;
-
-                    customCategoryInput.focus();
-
-                } else {
-
-                    customCategoryInput.style.display =
-                        "none";
-
-                    customCategoryInput.required =
-                        false;
-
-                    customCategoryInput.value = "";
-                }
+        newsCategorySelect.addEventListener("change", () => {
+            if (newsCategorySelect.value === "custom") {
+                customCategoryInput.style.display = "block";
+                customCategoryInput.required = true;
+                customCategoryInput.focus();
+            } else {
+                customCategoryInput.style.display = "none";
+                customCategoryInput.required = false;
+                customCategoryInput.value = "";
             }
-        );
+        });
     }
 
     if (newsImageInput) {
+        newsImageInput.addEventListener("change", function () {
+            const file = this.files[0];
 
-        newsImageInput.addEventListener(
-            "change",
-            function () {
+            if (file) {
+                const reader = new FileReader();
 
-                const file =
-                    this.files[0];
-
-                if (file) {
-
-                    const reader =
-                        new FileReader();
-
-                    reader.onload = function (e) {
-
-                        if (imagePreview) {
-                            imagePreview.src =
-                                e.target.result;
-                        }
-
-                        if (imagePreviewContainer) {
-                            imagePreviewContainer.style.display =
-                                "block";
-                        }
-                    };
-
-                    reader.readAsDataURL(file);
-
-                } else {
-
-                    if (imagePreview) {
-                        imagePreview.src = "";
-                    }
+                reader.onload = function (e) {
+                    if (imagePreview) imagePreview.src = e.target.result;
 
                     if (imagePreviewContainer) {
-                        imagePreviewContainer.style.display =
-                            "none";
+                        imagePreviewContainer.style.display = "block";
                     }
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                if (imagePreview) imagePreview.src = "";
+
+                if (imagePreviewContainer) {
+                    imagePreviewContainer.style.display = "none";
                 }
             }
-        );
+        });
     }
 
     function escapeHTML(str) {
+        if (str === null || str === undefined) return "";
 
-        if (!str) return "";
-
-        return String(str).replace(
-            /[&<>'"]/g,
-            tag =>
-                ({
-                    "&": "&amp;",
-                    "<": "&lt;",
-                    ">": "&gt;",
-                    "'": "&#39;",
-                    '"': "&quot;"
-                }[tag] || tag)
-        );
+        return String(str).replace(/[&<>'"]/g, tag => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            "'": "&#39;",
+            '"': "&quot;"
+        }[tag] || tag));
     }
 
+    // XƏBƏRİ SİLMƏK — qorunan xəbərlər də admin şifrəsi ilə silinə bilər
     window.deleteNews = function (id) {
-
-        const password =
-            prompt(
-                "Xəbəri silmək üçün admin şifrəsini daxil edin:"
-            );
+        const password = prompt(
+            "Xəbəri silmək üçün admin şifrəsini daxil edin:"
+        );
 
         if (!password) return;
 
-        fetch(`/api/news/${id}`, {
+        const confirmed = confirm(
+            "Bu xəbəri həqiqətən silmək istəyirsiniz?"
+        );
+
+        if (!confirmed) return;
+
+        fetch(`/api/news/${encodeURIComponent(id)}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
                 "x-password": password
             },
-            body: JSON.stringify({
-                password
-            })
+            body: JSON.stringify({ password })
         })
-            .then(res => res.json())
-            .then(response => {
+        .then(res => res.json())
+        .then(response => {
+            alert(response.message || "Əməliyyat yerinə yetirildi.");
 
-                alert(
-                    response.message ||
-                    "Əməliyyat yerinə yetirildi."
-                );
-
-                if (response.success) {
-                    loadNews();
-                }
-            })
-            .catch(() => {
-                alert(
-                    "Silinmə zamanı şəbəkə xətası baş verdi."
-                );
-            });
+            if (response.success) {
+                loadNews();
+            }
+        })
+        .catch(err => {
+            console.error("Xəbər silinmə xətası:", err);
+            alert("Silinmə zamanı şəbəkə xətası baş verdi.");
+        });
     };
 
     window.likeNews = function (id) {
-
-        let likedNews =
-            JSON.parse(
-                localStorage.getItem("likedNews")
-            ) || [];
+        let likedNews = JSON.parse(localStorage.getItem("likedNews")) || [];
 
         if (likedNews.includes(id)) {
-
-            alert(
-                "Siz bu xəbəri artıq bəyənmisiniz! ❤️"
-            );
-
+            alert("Siz bu xəbəri artıq bəyənmisiniz! ❤️");
             return;
         }
 
-        fetch(`/api/news/${id}/like`, {
+        fetch(`/api/news/${encodeURIComponent(id)}/like`, {
             method: "POST"
         })
-            .then(res => res.json())
-            .then(data => {
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                const countSpan =
+                    document.getElementById(`likes-count-${id}`);
 
-                if (data.success) {
+                if (countSpan) countSpan.textContent = data.likes;
 
-                    const countSpan =
-                        document.getElementById(
-                            `likes-count-${id}`
-                        );
-
-                    if (countSpan) {
-                        countSpan.textContent =
-                            data.likes;
-                    }
-
-                    likedNews.push(id);
-
-                    localStorage.setItem(
-                        "likedNews",
-                        JSON.stringify(likedNews)
-                    );
-
-                } else {
-
-                    alert(
-                        data.message ||
-                        "Bəyənmək mümkün olmadı."
-                    );
-                }
-            })
-            .catch(() => {
-                alert(
-                    "Bəyənmə zamanı xəta baş verdi."
-                );
-            });
+                likedNews.push(id);
+                localStorage.setItem("likedNews", JSON.stringify(likedNews));
+            } else {
+                alert(data.message || "Bəyənmək mümkün olmadı.");
+            }
+        })
+        .catch(() => alert("Bəyənmə zamanı xəta baş verdi."));
     };
 
     window.incrementViews = function (id) {
+        let viewedNews = JSON.parse(localStorage.getItem("viewedNews")) || [];
 
-        let viewedNews =
-            JSON.parse(
-                localStorage.getItem("viewedNews")
-            ) || [];
+        if (viewedNews.includes(id)) return;
 
-        if (viewedNews.includes(id)) {
-            return;
-        }
-
-        fetch(`/api/news/${id}/view`, {
+        fetch(`/api/news/${encodeURIComponent(id)}/view`, {
             method: "POST"
         })
-            .then(res => res.json())
-            .then(data => {
-
-                if (data.success) {
-
-                    viewedNews.push(id);
-
-                    localStorage.setItem(
-                        "viewedNews",
-                        JSON.stringify(viewedNews)
-                    );
-                }
-            })
-            .catch(err => {
-                console.error(
-                    "Baxış sayı xətası:",
-                    err
-                );
-            });
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                viewedNews.push(id);
+                localStorage.setItem("viewedNews", JSON.stringify(viewedNews));
+            }
+        })
+        .catch(err => console.error("Baxış sayı xətası:", err));
     };
 
-    window.copyNewsLink = function (
-        url,
-        buttonElement
-    ) {
+    window.copyNewsLink = function (url, buttonElement) {
+        if (!buttonElement) return;
 
-        navigator.clipboard
-            .writeText(url)
-            .then(() => {
+        navigator.clipboard.writeText(url)
+        .then(() => {
+            const originalHTML = buttonElement.innerHTML;
 
-                const originalHTML =
-                    buttonElement.innerHTML;
+            buttonElement.innerHTML = "✅ Kopyalandı!";
+            buttonElement.style.backgroundColor = "rgba(34, 197, 94, 0.2)";
+            buttonElement.style.color = "#22c55e";
 
-                buttonElement.innerHTML =
-                    "✅ Kopyalandı!";
-
-                buttonElement.style.backgroundColor =
-                    "rgba(34, 197, 94, 0.2)";
-
-                buttonElement.style.color =
-                    "#22c55e";
-
-                setTimeout(() => {
-
-                    buttonElement.innerHTML =
-                        originalHTML;
-
-                    buttonElement.style.backgroundColor =
-                        "rgba(59, 130, 246, 0.1)";
-
-                    buttonElement.style.color =
-                        "#3b82f6";
-
-                }, 2000);
-            })
-            .catch(err => {
-
-                console.error(
-                    "Kopyalama xətası:",
-                    err
-                );
-
-                alert(
-                    "Linki kopyalamaq mümkün olmadı."
-                );
-            });
+            setTimeout(() => {
+                buttonElement.innerHTML = originalHTML;
+                buttonElement.style.backgroundColor = "rgba(59, 130, 246, 0.1)";
+                buttonElement.style.color = "#3b82f6";
+            }, 2000);
+        })
+        .catch(err => {
+            console.error("Kopyalama xətası:", err);
+            alert("Linki kopyalamaq mümkün olmadı.");
+        });
     };
 
-    window.shareOnWhatsApp = function (
-        title,
-        url
-    ) {
-
+    window.shareOnWhatsApp = function (title, url) {
         const text = encodeURIComponent(
             `📢 *${title}*\n\nƏtraflı oxu: ${url}`
         );
 
-        const whatsappUrl =
-            `https://api.whatsapp.com/send?text=${text}`;
-
         window.open(
-            whatsappUrl,
+            `https://api.whatsapp.com/send?text=${text}`,
             "_blank"
         );
-    };
-
+    };    // ŞƏRH ƏLAVƏ ETMƏ
     window.addComment = function (id) {
-
-        const userInput =
-            document.getElementById(
-                `comment-user-${id}`
-            );
+        const userInput = document.getElementById(`comment-user-${id}`);
 
         const commentInput =
-            document.getElementById(
-                `comment-input-${id}`
-            ) ||
-            document.getElementById(
-                `comment-text-${id}`
-            );
+            document.getElementById(`comment-input-${id}`) ||
+            document.getElementById(`comment-text-${id}`);
 
-        const username =
-            userInput
-                ? userInput.value.trim()
-                : "";
-
-        const commentText =
-            commentInput
-                ? commentInput.value.trim()
-                : "";
+        const username = userInput ? userInput.value.trim() : "";
+        const commentText = commentInput ? commentInput.value.trim() : "";
 
         if (!commentText) {
-
-            alert(
-                "Zəhmət olmasa şərh yazın!"
-            );
-
+            alert("Zəhmət olmasa şərh yazın!");
             return;
         }
 
@@ -1353,28 +1013,20 @@ document.addEventListener("DOMContentLoaded", () => {
             containsBadWord(commentText) ||
             containsBadWord(username)
         ) {
-
             alert(
                 "⚠️ Şərhinizdə və ya adınızda qadağan olunmuş / təhqiramiz ifadələr aşkar edildi. Şərh qəbul olunmadı!"
             );
 
-            if (commentInput) {
-                commentInput.value = "";
-            }
-
+            if (commentInput) commentInput.value = "";
             return;
         }
 
         if (commentText.length > 500) {
-
-            alert(
-                "Şərh 500 simvoldan uzun ola bilməz!"
-            );
-
+            alert("Şərh 500 simvoldan uzun ola bilməz!");
             return;
         }
 
-        fetch(`/api/news/${id}/comment`, {
+        fetch(`/api/news/${encodeURIComponent(id)}/comment`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -1384,190 +1036,144 @@ document.addEventListener("DOMContentLoaded", () => {
                 username
             })
         })
-            .then(res => res.json())
-            .then(data => {
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                if (commentInput) commentInput.value = "";
+                if (userInput) userInput.value = "";
 
-                if (data.success) {
-
-                    if (commentInput) {
-                        commentInput.value = "";
-                    }
-
-                    if (userInput) {
-                        userInput.value = "";
-                    }
-
-                    const targetNews =
-                        allNewsData.find(
-                            n => (n.id || n._id) === id
-                        );
-
-                    if (targetNews) {
-                        targetNews.comments =
-                            data.comments;
-                    }
-
-                    renderCommentsList(
-                        id,
-                        data.comments
-                    );
-
-                } else {
-
-                    alert(
-                        data.message ||
-                        "Şərh əlavə edilə bilmədi."
-                    );
-                }
-            })
-            .catch(() => {
-                alert(
-                    "Şəbəkə xətası baş verdi."
+                const targetNews = allNewsData.find(
+                    n => String(n.id || n._id) === String(id)
                 );
-            });
+
+                if (targetNews) {
+                    targetNews.comments = Array.isArray(data.comments)
+                        ? data.comments
+                        : [];
+                }
+
+                window.renderCommentsList(id, data.comments || []);
+            } else {
+                alert(data.message || "Şərh əlavə edilə bilmədi.");
+            }
+        })
+        .catch(err => {
+            console.error("Şərh əlavə etmə xətası:", err);
+            alert("Şəbəkə xətası baş verdi.");
+        });
     };
 
-    window.deleteComment = function (
-        newsId,
-        commentId
-    ) {
-
-        const password =
-            prompt(
-                "Şərhi silmək üçün admin şifrəsini daxil edin:"
-            );
+    // ŞƏRH SİLMƏ
+    window.deleteComment = function (newsId, commentId) {
+        const password = prompt(
+            "Şərhi silmək üçün admin şifrəsini daxil edin:"
+        );
 
         if (!password) return;
 
         fetch(
-            `/api/news/${newsId}/comment/${commentId}`,
+            `/api/news/${encodeURIComponent(newsId)}/comment/${encodeURIComponent(commentId)}`,
             {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                     "x-password": password
                 },
-                body: JSON.stringify({
-                    password
-                })
+                body: JSON.stringify({ password })
             }
         )
-            .then(res => res.json())
-            .then(response => {
-
-                if (response.success) {
-
-                    const targetNews =
-                        allNewsData.find(
-                            n => (n.id || n._id) === newsId
-                        );
-
-                    if (targetNews) {
-                        targetNews.comments =
-                            response.comments;
-                    }
-
-                    renderCommentsList(
-                        newsId,
-                        response.comments
-                    );
-
-                } else {
-
-                    alert(
-                        response.message ||
-                        "Şərh silinə bilmədi."
-                    );
-                }
-            })
-            .catch(() => {
-                alert(
-                    "Şərh silinərkən xəta baş verdi."
+        .then(res => res.json())
+        .then(response => {
+            if (response.success) {
+                const targetNews = allNewsData.find(
+                    n => String(n.id || n._id) === String(newsId)
                 );
-            });
-    };window.renderCommentsList = function (
-        newsId,
-        comments
-    ) {
 
+                if (targetNews) {
+                    targetNews.comments = Array.isArray(response.comments)
+                        ? response.comments
+                        : [];
+                }
+
+                window.renderCommentsList(
+                    newsId,
+                    response.comments || []
+                );
+            } else {
+                alert(response.message || "Şərh silinə bilmədi.");
+            }
+        })
+        .catch(err => {
+            console.error("Şərh silmə xətası:", err);
+            alert("Şərh silinərkən xəta baş verdi.");
+        });
+    };
+
+    // ŞƏRHLƏRİ GÖSTƏR
+    window.renderCommentsList = function (newsId, comments) {
         const container =
-            document.getElementById(
-                `comments-container-${newsId}`
-            ) ||
-            document.getElementById(
-                `comments-list-${newsId}`
-            );
+            document.getElementById(`comments-container-${newsId}`) ||
+            document.getElementById(`comments-list-${newsId}`);
 
         if (!container) return;
 
-        if (
-            !comments ||
-            comments.length === 0
-        ) {
+        const safeComments = Array.isArray(comments) ? comments : [];
 
+        if (safeComments.length === 0) {
             container.innerHTML = `
-                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">
-                    ${
-                        currentLang === "az"
-                            ? "Hələ şərh yoxdur."
-                            : "No comments yet."
-                    }
+                <p style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">
+                    ${currentLang === "az" ? "Hələ şərh yoxdur." : "No comments yet."}
                 </p>
             `;
-
             return;
         }
 
-        container.innerHTML =
-            comments
-                .map(c => `
-                    <div class="comment-item"
-                         style="background: var(--bg-primary);
-                                padding: 8px 12px;
-                                border-radius: 8px;
-                                margin-bottom: 6px;
-                                display: flex;
-                                justify-content: space-between;
-                                align-items: center;
-                                border: 1px solid var(--border-color);"
-                         data-comment-id="${escapeHTML(c.id)}">
+        container.innerHTML = safeComments.map(c => `
+            <div
+                class="comment-item"
+                style="
+                    background:var(--bg-primary);
+                    padding:8px 12px;
+                    border-radius:8px;
+                    margin-bottom:6px;
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    border:1px solid var(--border-color);
+                "
+                data-comment-id="${escapeHTML(c.id)}"
+            >
+                <div style="font-size:13px; word-break:break-all; padding-right:8px;">
+                    <strong style="color:var(--accent);">
+                        ${escapeHTML(c.user || c.username || "İstifadəçi")}:
+                    </strong>
 
-                        <div style="font-size: 13px;
-                                    word-break: break-all;
-                                    padding-right: 8px;">
+                    <span style="color:var(--text-main);">
+                        ${escapeHTML(c.text || c.comment || "")}
+                    </span>
+                </div>
 
-                            <strong style="color: var(--accent);">
-                                ${escapeHTML(c.user)}:
-                            </strong>
-
-                            <span style="color: var(--text-main);">
-                                ${escapeHTML(c.text)}
-                            </span>
-
-                        </div>
-
-                        <button
-                            onclick="deleteComment('${escapeHTML(newsId)}', '${escapeHTML(c.id)}')"
-                            class="btn-delete-comment"
-                            style="background: rgba(239, 68, 68, 0.1);
-                                   color: var(--danger);
-                                   border: 1px solid rgba(239, 68, 68, 0.2);
-                                   padding: 2px 6px;
-                                   border-radius: 4px;
-                                   cursor: pointer;
-                                   font-size: 10px;
-                                   flex-shrink: 0;"
-                            title="Şərhi sil">
-                            ×
-                        </button>
-
-                    </div>
-                `)
-                .join("");
+                <button
+                    onclick="deleteComment('${escapeHTML(newsId)}', '${escapeHTML(c.id)}')"
+                    class="btn-delete-comment"
+                    style="
+                        background:rgba(239,68,68,0.1);
+                        color:var(--danger);
+                        border:1px solid rgba(239,68,68,0.2);
+                        padding:2px 6px;
+                        border-radius:4px;
+                        cursor:pointer;
+                        font-size:10px;
+                        flex-shrink:0;
+                    "
+                    title="Şərhi sil"
+                >×</button>
+            </div>
+        `).join("");
     };
 
+    // KATEQORİYA DÜYMƏLƏRİ
     window.renderCategoryButtons = async function () {
-
         const defaultCategories = [
             "Hamısı",
             "Siyasət",
@@ -1576,99 +1182,61 @@ document.addEventListener("DOMContentLoaded", () => {
             "Maraqlı"
         ];
 
-        const categorySet =
-            new Set(defaultCategories);
+        const categorySet = new Set(defaultCategories);
 
         for (const news of allNewsData) {
-
-            if (categorySet.size >= MAX_CATEGORIES) {
-                break;
-            }
+            if (categorySet.size >= MAX_CATEGORIES) break;
 
             if (
                 news.category &&
                 news.category.trim() !== "" &&
                 news.category !== "SYSTEM_VISITS"
             ) {
-                categorySet.add(
-                    news.category.trim()
-                );
+                categorySet.add(news.category.trim());
             }
         }
 
-        if (categoryButtonsContainer) {
+        if (!categoryButtonsContainer) return;
 
-            categoryButtonsContainer.innerHTML = "";
+        categoryButtonsContainer.innerHTML = "";
 
-            for (const cat of Array.from(categorySet)) {
+        for (const cat of Array.from(categorySet)) {
+            const btn = document.createElement("button");
 
-                const btn =
-                    document.createElement("button");
+            btn.type = "button";
+            btn.className =
+                `cat-btn ${selectedCategory === cat ? "active" : ""}`;
 
-                btn.type = "button";
-
-                btn.className =
-                    `cat-btn ${
-                        selectedCategory === cat
-                            ? "active"
-                            : ""
-                    }`;
-
-                if (categoryTranslations[cat]) {
-
-                    btn.textContent =
-                        categoryTranslations[cat][currentLang] ||
-                        cat;
-
-                } else {
-
-                    if (currentLang !== "az") {
-
-                        btn.textContent =
-                            await translateText(
-                                cat,
-                                currentLang
-                            );
-
-                    } else {
-
-                        btn.textContent = cat;
-                    }
-                }
-
-                btn.addEventListener(
-                    "click",
-                    () => {
-
-                        selectedCategory = cat;
-
-                        displayedCount = 5;
-
-                        renderCategoryButtons();
-
-                        renderNews();
-                    }
-                );
-
-                categoryButtonsContainer.appendChild(
-                    btn
-                );
+            if (categoryTranslations[cat]) {
+                btn.textContent =
+                    categoryTranslations[cat][currentLang] || cat;
+            } else if (currentLang !== "az") {
+                btn.textContent = await translateText(cat, currentLang);
+            } else {
+                btn.textContent = cat;
             }
+
+            btn.addEventListener("click", () => {
+                selectedCategory = cat;
+                displayedCount = 5;
+
+                window.renderCategoryButtons();
+                window.renderNews();
+            });
+
+            categoryButtonsContainer.appendChild(btn);
         }
     };
 
+    // XƏBƏRLƏRİ GÖSTƏR
     window.renderNews = async function () {
-
         if (!newsContainer) return;
 
         newsContainer.innerHTML = "";
 
-        const validNews =
-            allNewsData.filter(
-                news =>
-                    news.category !==
-                    "SYSTEM_VISITS"
-            );
+        const validNews = allNewsData.filter(
+            news => news.category !== "SYSTEM_VISITS"
+        );
 
         let filteredNews =
             selectedCategory === "Hamısı"
@@ -1676,133 +1244,111 @@ document.addEventListener("DOMContentLoaded", () => {
                 : validNews.filter(
                     news =>
                         news.category &&
-                        news.category.trim() ===
-                        selectedCategory.trim()
+                        news.category.trim() === selectedCategory.trim()
                 );
 
-        const t =
-            translations[currentLang];
+        // SABİTLƏNMİŞ XƏBƏRLƏR HƏMİŞƏ YUXARIDA
+        filteredNews.sort((a, b) => {
+            const aPinned = isNewsPinned(a);
+            const bPinned = isNewsPinned(b);
 
+            if (aPinned && !bPinned) return -1;
+            if (!aPinned && bPinned) return 1;
+
+            const aTime = Number(a.createdAt || a.timestamp || 0);
+            const bTime = Number(b.createdAt || b.timestamp || 0);
+
+            return bTime - aTime;
+        });
+
+        const t = translations[currentLang];
         let translatedNewsList = [];
 
         for (const news of filteredNews) {
+            const translatedTitle = await translateText(
+                news.title || "",
+                currentLang
+            );
 
-            const translatedTitle =
-                await translateText(
-                    news.title,
-                    currentLang
-                );
+            const translatedContent = await translateText(
+                news.content || "",
+                currentLang
+            );
 
-            const translatedContent =
-                await translateText(
-                    news.content,
-                    currentLang
-                );
-
-            let translatedCategory =
-                news.category;
+            let translatedCategory = news.category || "";
 
             if (categoryTranslations[news.category]) {
-
                 translatedCategory =
-                    categoryTranslations[
-                        news.category
-                    ][currentLang] ||
+                    categoryTranslations[news.category][currentLang] ||
                     news.category;
-
-            } else if (
-                news.category &&
-                currentLang !== "az"
-            ) {
-
-                translatedCategory =
-                    await translateText(
-                        news.category,
-                        currentLang
-                    );
+            } else if (news.category && currentLang !== "az") {
+                translatedCategory = await translateText(
+                    news.category,
+                    currentLang
+                );
             }
 
             translatedNewsList.push({
                 ...news,
-                displayTitle:
-                    translatedTitle,
-                displayContent:
-                    translatedContent,
-                displayCategory:
-                    translatedCategory
+                displayTitle: translatedTitle,
+                displayContent: translatedContent,
+                displayCategory: translatedCategory
             });
         }
 
         if (searchQuery !== "") {
-
-            translatedNewsList =
-                translatedNewsList.filter(
-                    news =>
-                        news.displayTitle
-                            .toLowerCase()
-                            .includes(searchQuery) ||
-
-                        news.displayContent
-                            .toLowerCase()
-                            .includes(searchQuery) ||
-
-                        news.displayCategory
-                            .toLowerCase()
-                            .includes(searchQuery)
-                );
+            translatedNewsList = translatedNewsList.filter(news =>
+                (news.displayTitle || "").toLowerCase().includes(searchQuery) ||
+                (news.displayContent || "").toLowerCase().includes(searchQuery) ||
+                (news.displayCategory || "").toLowerCase().includes(searchQuery)
+            );
         }
 
         if (translatedNewsList.length === 0) {
-
             newsContainer.innerHTML = `
-                <p style="text-align:center;
-                          color:var(--text-muted);
-                          padding:40px;">
+                <p style="text-align:center; color:var(--text-muted); padding:40px;">
                     ${t.noNewsInCategory}
                 </p>
             `;
-
             return;
         }
 
-        const newsToDisplay =
-            translatedNewsList.slice(
-                0,
-                displayedCount
-            );
+        const newsToDisplay = translatedNewsList.slice(0, displayedCount);
 
         for (const news of newsToDisplay) {
-
-            const card =
-                document.createElement("div");
-
+            const card = document.createElement("div");
             card.className = "news-card";
 
-            const newsId =
-                news.id || news._id;
+            const newsId = news.id || news._id;
+            const pinned = isNewsPinned(news);
+            const neverDelete = isNewsNeverDelete(news);
 
-            card.setAttribute(
-                "data-id",
-                newsId
-            );
+            card.setAttribute("data-id", newsId);
 
-            incrementViews(newsId);
+            if (pinned) {
+                card.style.border = "2px solid var(--accent)";
+                card.style.boxShadow =
+                    "0 4px 18px rgba(56, 189, 248, 0.18)";
+            }
+
+            if (typeof window.incrementViews === "function") {
+                window.incrementViews(newsId);
+            }
 
             let imageHtml = "";
 
             if (news.sekil) {
-
                 imageHtml = `
-                    <div class="news-img-container"
-                         onclick="openImageModal('${escapeHTML(news.sekil)}')">
-
+                    <div
+                        class="news-img-container"
+                        onclick="openImageModal('${escapeHTML(news.sekil)}')"
+                    >
                         <img
                             src="${escapeHTML(news.sekil)}"
                             class="news-img-main"
                             alt="Xəbər şəkli"
                             onerror="this.parentElement.style.display='none'"
                         >
-
                     </div>
                 `;
             }
@@ -1810,615 +1356,494 @@ document.addEventListener("DOMContentLoaded", () => {
             let videoHtml = "";
 
             if (news.videoFile) {
-
                 videoHtml = `
                     <video
                         controls
                         class="news-media"
-                        style="width:100%;
-                               max-height:380px;
-                               border-radius:12px;
-                               margin:14px 0;">
-
-                        <source
-                            src="${escapeHTML(news.videoFile)}"
-                            type="video/mp4">
-
+                        style="width:100%; max-height:380px; border-radius:12px; margin:14px 0;"
+                    >
+                        <source src="${escapeHTML(news.videoFile)}" type="video/mp4">
                         Brauzeriniz videonu dəstəkləmir.
                     </video>
                 `;
-
             } else if (news.videoUrl) {
-
                 if (
-                    news.videoUrl.includes(
-                        "youtube.com"
-                    ) ||
-                    news.videoUrl.includes(
-                        "youtu.be"
-                    )
+                    news.videoUrl.includes("youtube.com") ||
+                    news.videoUrl.includes("youtu.be")
                 ) {
+                    let embedUrl = news.videoUrl;
 
-                    let embedUrl =
-                        news.videoUrl;
-
-                    if (
-                        embedUrl.includes(
-                            "watch?v="
-                        )
-                    ) {
-                        embedUrl =
-                            embedUrl.replace(
-                                "watch?v=",
-                                "embed/"
-                            );
+                    if (embedUrl.includes("watch?v=")) {
+                        embedUrl = embedUrl.replace("watch?v=", "embed/");
                     }
 
-                    if (
-                        embedUrl.includes(
-                            "youtu.be/"
-                        )
-                    ) {
-                        embedUrl =
-                            embedUrl.replace(
-                                "youtu.be/",
-                                "www.youtube.com/embed/"
-                            );
+                    if (embedUrl.includes("youtu.be/")) {
+                        embedUrl = embedUrl.replace(
+                            "youtu.be/",
+                            "www.youtube.com/embed/"
+                        );
                     }
 
                     videoHtml = `
-                        <div style="position:relative;
-                                    padding-bottom:56.25%;
-                                    height:0;
-                                    margin:14px 0;">
-
+                        <div style="position:relative; padding-bottom:56.25%; height:0; margin:14px 0;">
                             <iframe
                                 src="${escapeHTML(embedUrl)}"
-                                style="position:absolute;
-                                       top:0;
-                                       left:0;
-                                       width:100%;
-                                       height:100%;
-                                       border:0;
-                                       border-radius:12px;"
-                                allowfullscreen>
-                            </iframe>
-
+                                style="position:absolute; top:0; left:0; width:100%; height:100%; border:0; border-radius:12px;"
+                                allowfullscreen
+                            ></iframe>
                         </div>
                     `;
-
                 } else {
-
                     videoHtml = `
                         <video
                             controls
                             class="news-media"
-                            style="width:100%;
-                                   max-height:380px;
-                                   border-radius:12px;
-                                   margin:14px 0;">
-
-                            <source
-                                src="${escapeHTML(news.videoUrl)}"
-                                type="video/mp4">
-
+                            style="width:100%; max-height:380px; border-radius:12px; margin:14px 0;"
+                        >
+                            <source src="${escapeHTML(news.videoUrl)}" type="video/mp4">
                             Brauzeriniz videonu dəstəkləmir.
                         </video>
                     `;
                 }
             }
 
-            const likesCount =
-                news.likes || 0;
-
-            const viewsCount =
-                news.views || 0;
+            const likesCount = news.likes || 0;
+            const viewsCount = news.views || 0;
 
             const currentNewsUrl =
                 window.location.origin +
                 `/news.html?id=${encodeURIComponent(newsId)}`;
 
             card.innerHTML = `
-
-                <div class="news-header-info"
-                     style="display:flex;
-                            justify-content:space-between;
-                            align-items:center;
-                            margin-bottom:12px;">
-
+                <div
+                    class="news-header-info"
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        margin-bottom:12px;
+                    "
+                >
                     <span
                         class="news-category news-category-badge"
-                        style="margin:0;">
+                        style="margin:0;"
+                    >
                         ${escapeHTML(news.displayCategory)}
                     </span>
 
-                    <div
-                        style="display:flex;
-                               gap:12px;
-                               font-size:12px;
-                               color:var(--text-muted);">
-
-                        <span>
-                            ${t.viewsLabel}
-                            ${viewsCount}
-                        </span>
-
+                    <div style="display:flex; gap:12px; font-size:12px; color:var(--text-muted);">
+                        <span>${t.viewsLabel} ${viewsCount}</span>
                         <span class="news-date">
-                            ${escapeHTML(
-                                news.date || t.today
-                            )}
+                            ${escapeHTML(news.date || t.today)}
                         </span>
-
                     </div>
                 </div>
+
+                ${
+                    pinned
+                        ? `
+                            <div
+                                style="
+                                    display:inline-block;
+                                    margin-bottom:8px;
+                                    padding:4px 9px;
+                                    border-radius:6px;
+                                    background:rgba(56,189,248,0.12);
+                                    color:var(--accent);
+                                    font-size:11px;
+                                    font-weight:700;
+                                "
+                            >
+                                📌 ${currentLang === "az" ? "SABİTLƏNMİŞ XƏBƏR" : "PINNED NEWS"}
+                            </div>
+                        `
+                        : ""
+                }
 
                 <h3 class="news-title">
                     ${escapeHTML(news.displayTitle)}
                 </h3>
 
-                <div
-                    class="news-content"
-                    style="margin-bottom:14px;">
-                    ${escapeHTML(
-                        news.displayContent
-                    )}
+                <div class="news-content" style="margin-bottom:14px;">
+                    ${escapeHTML(news.displayContent)}
                 </div>
 
                 ${imageHtml}
-
                 ${videoHtml}
 
                 <div
                     class="news-actions"
-                    style="margin-top:16px;
-                           border-top:1px solid var(--border-color);
-                           padding-top:14px;
-                           display:flex;
-                           gap:8px;
-                           flex-wrap:wrap;
-                           align-items:center;">
-
+                    style="
+                        margin-top:16px;
+                        border-top:1px solid var(--border-color);
+                        padding-top:14px;
+                        display:flex;
+                        gap:8px;
+                        flex-wrap:wrap;
+                        align-items:center;
+                    "
+                >
                     <button
                         onclick="likeNews('${escapeHTML(newsId)}')"
                         class="btn-like"
-                        style="background:#e11d48;
-                               color:white;
-                               border:none;
-                               padding:7px 14px;
-                               border-radius:8px;
-                               cursor:pointer;
-                               font-size:13px;
-                               font-weight:600;
-                               transition:0.2s;">
-
-                        ❤️
-                        ${t.likeBtn.replace("❤️ ", "")}
-                        (<span id="likes-count-${escapeHTML(newsId)}">
-                            ${likesCount}
-                        </span>)
-
+                        style="
+                            background:#e11d48;
+                            color:white;
+                            border:none;
+                            padding:7px 14px;
+                            border-radius:8px;
+                            cursor:pointer;
+                            font-size:13px;
+                            font-weight:600;
+                            transition:0.2s;
+                        "
+                    >
+                        ❤️ ${t.likeBtn.replace("❤️ ", "")}
+                        (<span id="likes-count-${escapeHTML(newsId)}">${likesCount}</span>)
                     </button>
 
                     <button
                         onclick="copyNewsLink('${escapeHTML(currentNewsUrl)}', this)"
                         class="share-btn copy-btn"
-                        style="background:rgba(59,130,246,0.1);
-                               color:#3b82f6;
-                               border:1px solid rgba(59,130,246,0.2);
-                               padding:7px 14px;
-                               border-radius:8px;
-                               cursor:pointer;
-                               font-size:13px;
-                               font-weight:600;
-                               transition:0.2s;">
-
-                        🔗
-                        ${t.copyBtn.replace("🔗 ", "")}
-
+                        style="
+                            background:rgba(59,130,246,0.1);
+                            color:#3b82f6;
+                            border:1px solid rgba(59,130,246,0.2);
+                            padding:7px 14px;
+                            border-radius:8px;
+                            cursor:pointer;
+                            font-size:13px;
+                            font-weight:600;
+                            transition:0.2s;
+                        "
+                    >
+                        🔗 ${t.copyBtn.replace("🔗 ", "")}
                     </button>
 
                     <button
                         onclick="shareOnWhatsApp('${escapeHTML(news.displayTitle)}', '${escapeHTML(currentNewsUrl)}')"
                         class="share-btn whatsapp-btn"
-                        style="background:rgba(34,197,94,0.1);
-                               color:#22c55e;
-                               border:1px solid rgba(34,197,94,0.2);
-                               padding:7px 14px;
-                               border-radius:8px;
-                               cursor:pointer;
-                               font-size:13px;
-                               font-weight:600;
-                               transition:0.2s;">
-
-                        💬
-                        ${t.whatsappBtn.replace("💬 ", "")}
-
+                        style="
+                            background:rgba(34,197,94,0.1);
+                            color:#22c55e;
+                            border:1px solid rgba(34,197,94,0.2);
+                            padding:7px 14px;
+                            border-radius:8px;
+                            cursor:pointer;
+                            font-size:13px;
+                            font-weight:600;
+                            transition:0.2s;
+                        "
+                    >
+                        💬 ${t.whatsappBtn.replace("💬 ", "")}
                     </button>
 
                     <button
                         onclick="deleteNews('${escapeHTML(newsId)}')"
                         class="btn-admin-delete delete-btn"
-                        style="margin-left:auto;">
-
-                        🗑️
-                        ${t.deleteBtn.replace("🗑️ ", "")}
-
+                        style="margin-left:auto; ${neverDelete ? "opacity:0.8;" : ""}"
+                    >
+                        ${
+                            neverDelete
+                                ? "🔒 " + (currentLang === "az" ? "Qorunur — admin silə bilər" : "Protected")
+                                : t.deleteBtn
+                        }
                     </button>
-
                 </div>
 
-                <div
-                    class="comments-section"
-                    style="margin-top:16px;">
-
+                <div class="comments-section" style="margin-top:16px;">
                     <h4
-                        style="font-size:13px;
-                               margin-bottom:8px;
-                               color:var(--text-muted);
-                               font-weight:600;">
-
+                        style="
+                            font-size:13px;
+                            margin-bottom:8px;
+                            color:var(--text-muted);
+                            font-weight:600;
+                        "
+                    >
                         ${t.commentsTitle}
-
                     </h4>
 
                     <div
                         class="comments-list"
-                        id="comments-container-${escapeHTML(newsId)}">
-                    </div>
+                        id="comments-container-${escapeHTML(newsId)}"
+                    ></div>
 
                     <div
                         class="add-comment-box"
-                        style="display:flex;
-                               gap:8px;
-                               margin-top:10px;
-                               flex-wrap:wrap;">
-
+                        style="
+                            display:flex;
+                            gap:8px;
+                            margin-top:10px;
+                            flex-wrap:wrap;
+                        "
+                    >
                         <input
                             type="text"
                             id="comment-user-${escapeHTML(newsId)}"
                             placeholder="${escapeHTML(t.commentUserPlaceholder)}"
                             class="comment-input-user"
-                            style="flex:1;
-                                   min-width:100px;
-                                   background:var(--bg-primary);
-                                   color:var(--text-main);
-                                   padding:8px 12px;
-                                   border:1px solid var(--border-color);
-                                   border-radius:8px;
-                                   font-size:12px;
-                                   outline:none;"
-                            maxlength="30">
+                            style="
+                                flex:1;
+                                min-width:100px;
+                                background:var(--bg-primary);
+                                color:var(--text-main);
+                                padding:8px 12px;
+                                border:1px solid var(--border-color);
+                                border-radius:8px;
+                                font-size:12px;
+                                outline:none;
+                            "
+                            maxlength="30"
+                        >
 
                         <input
                             type="text"
                             id="comment-input-${escapeHTML(newsId)}"
                             placeholder="${escapeHTML(t.commentTextPlaceholder)}"
                             class="comment-input-text"
-                            style="flex:2;
-                                   min-width:160px;
-                                   background:var(--bg-primary);
-                                   color:var(--text-main);
-                                   padding:8px 12px;
-                                   border:1px solid var(--border-color);
-                                   border-radius:8px;
-                                   font-size:12px;
-                                   outline:none;"
-                            maxlength="500">
+                            style="
+                                flex:2;
+                                min-width:160px;
+                                background:var(--bg-primary);
+                                color:var(--text-main);
+                                padding:8px 12px;
+                                border:1px solid var(--border-color);
+                                border-radius:8px;
+                                font-size:12px;
+                                outline:none;
+                            "
+                            maxlength="500"
+                        >
 
                         <button
                             onclick="addComment('${escapeHTML(newsId)}')"
                             class="btn-send-comment"
-                            style="background:var(--accent);
-                                   color:#0f172a;
-                                   border:none;
-                                   padding:8px 16px;
-                                   border-radius:8px;
-                                   cursor:pointer;
-                                   font-size:12px;
-                                   font-weight:700;
-                                   transition:0.2s;">
-
+                            style="
+                                background:var(--accent);
+                                color:#0f172a;
+                                border:none;
+                                padding:8px 16px;
+                                border-radius:8px;
+                                cursor:pointer;
+                                font-size:12px;
+                                font-weight:700;
+                                transition:0.2s;
+                            "
+                        >
                             ${t.commentSendBtn}
-
                         </button>
-
                     </div>
                 </div>
             `;
 
             newsContainer.appendChild(card);
 
-            renderCommentsList(
+            // HƏR XƏBƏRİN ŞƏRHLƏRİNİ YENİDƏN GÖSTƏR
+            window.renderCommentsList(
                 newsId,
-                news.comments
+                Array.isArray(news.comments) ? news.comments : []
             );
         }
     };
 
-    window.addEventListener(
-        "scroll",
-        () => {
+    // AŞAĞI DÜŞDÜKDƏ NÖVBƏTİ XƏBƏRLƏRİ YÜKLƏ
+    window.addEventListener("scroll", () => {
+        if (isLoadingNews) return;
 
-            if (isLoadingNews) return;
+        if (
+            window.innerHeight + window.scrollY >=
+            document.body.offsetHeight - 300
+        ) {
+            const validNews = allNewsData.filter(
+                news => news.category !== "SYSTEM_VISITS"
+            );
 
-            if (
-                window.innerHeight +
-                window.scrollY >=
-                document.body.offsetHeight - 300
-            ) {
+            if (displayedCount < validNews.length) {
+                isLoadingNews = true;
+                displayedCount += 5;
 
-                const validNews =
-                    allNewsData.filter(
-                        news =>
-                            news.category !==
-                            "SYSTEM_VISITS"
-                    );
-
-                if (
-                    displayedCount <
-                    validNews.length
-                ) {
-
-                    isLoadingNews = true;
-
-                    displayedCount += 5;
-
-                    renderNews()
-                        .finally(() => {
-                            isLoadingNews = false;
-                        });
-                }
+                window.renderNews().finally(() => {
+                    isLoadingNews = false;
+                });
             }
         }
-    );
+    });
 
+    // XƏBƏRLƏRİ SERVERDƏN YÜKLƏ
     function loadNews() {
-
         fetch("/api/news")
-            .then(res => res.json())
-            .then(data => {
+        .then(res => {
+            if (!res.ok) {
+                throw new Error("Xəbərləri yükləmək mümkün olmadı.");
+            }
 
-                allNewsData =
-                    Array.isArray(data)
-                        ? data
-                        : [];
+            return res.json();
+        })
+        .then(data => {
+            allNewsData = Array.isArray(data) ? data : [];
 
-                renderCategoryButtons();
+            window.renderCategoryButtons();
+            window.renderNews();
+        })
+        .catch(err => {
+            console.error("Xəbərləri yükləmə xətası:", err);
 
-                renderNews();
+            if (newsContainer) {
+                newsContainer.innerHTML = `
+                    <p style="text-align:center; color:var(--danger);">
+                        Xəbərləri yükləmək mümkün olmadı.
+                    </p>
+                `;
+            }
+        });
+    }
+
+    // YENİ XƏBƏR PAYLAŞMA
+    if (newsForm) {
+        newsForm.addEventListener("submit", e => {
+            e.preventDefault();
+
+            const titleInput = document.getElementById("newsTitle");
+            const contentInput = document.getElementById("newsContent");
+
+            if (!titleInput || !contentInput) return;
+
+            const formData = new FormData();
+
+            formData.append("title", titleInput.value.trim());
+
+            let category = newsCategorySelect
+                ? newsCategorySelect.value
+                : "Maraqlı";
+
+            if (category === "custom" && customCategoryInput) {
+                category =
+                    customCategoryInput.value.trim() || "Maraqlı";
+            }
+
+            formData.append("category", category);
+            formData.append("content", contentInput.value.trim());
+            formData.append("password", currentAdminPassword);
+            formData.append("date", new Date().toLocaleString());
+            formData.append("createdAt", Date.now());
+
+            formData.append(
+                "neverDelete",
+                neverDeleteCheckbox && neverDeleteCheckbox.checked
+                    ? "true"
+                    : "false"
+            );
+
+            formData.append(
+                "pinned",
+                pinNewsCheckbox && pinNewsCheckbox.checked
+                    ? "true"
+                    : "false"
+            );
+
+            if (
+                newsVideoUrlInput &&
+                newsVideoUrlInput.value.trim() !== ""
+            ) {
+                formData.append(
+                    "videoUrl",
+                    newsVideoUrlInput.value.trim()
+                );
+            }
+
+            const imageFile =
+                newsImageInput && newsImageInput.files[0]
+                    ? newsImageInput.files[0]
+                    : null;
+
+            if (imageFile) {
+                formData.append("sekil", imageFile);
+            }
+
+            const videoFile =
+                newsVideoFileInput && newsVideoFileInput.files[0]
+                    ? newsVideoFileInput.files[0]
+                    : null;
+
+            if (videoFile) {
+                formData.append("newsVideoFile", videoFile);
+            }
+
+            const submitBtn =
+                newsForm.querySelector(".submit-btn") ||
+                newsForm.querySelector('button[type="submit"]');
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Paylaşılır...";
+            }
+
+            fetch("/api/news", {
+                method: "POST",
+                body: formData
             })
-            .catch(() => {
+            .then(async res => {
+                const contentType = res.headers.get("content-type");
 
-                if (newsContainer) {
+                if (
+                    contentType &&
+                    contentType.includes("application/json")
+                ) {
+                    return res.json();
+                }
 
-                    newsContainer.innerHTML = `
-                        <p style="text-align:center;
-                                  color:var(--danger);">
-                            Xəbərləri yükləmək mümkün olmadı.
-                        </p>
-                    `;
+                throw new Error(
+                    "Server düzgün cavab qaytarmadı (API tapılmadı)."
+                );
+            })
+            .then(response => {
+                alert(response.message || "Xəbər əlavə olundu!");
+
+                if (response.success) {
+                    newsForm.reset();
+
+                    if (customCategoryInput) {
+                        customCategoryInput.style.display = "none";
+                    }
+
+                    if (imagePreview) imagePreview.src = "";
+
+                    if (imagePreviewContainer) {
+                        imagePreviewContainer.style.display = "none";
+                    }
+
+                    if (adminSection) {
+                        adminSection.style.display = "none";
+                    }
+
+                    if (adminBtn) {
+                        adminBtn.textContent =
+                            translations[currentLang].adminPanelBtn;
+                    }
+
+                    displayedCount = 5;
+                    loadNews();
+                }
+            })
+            .catch(err => {
+                console.error(err);
+
+                alert(
+                    "Xəbər göndərilərkən xəta baş verdi: " +
+                    err.message
+                );
+            })
+            .finally(() => {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent =
+                        translations[currentLang].publishBtn;
                 }
             });
+        });
     }
 
-    if (newsForm) {
-
-        newsForm.addEventListener(
-            "submit",
-            e => {
-
-                e.preventDefault();
-
-                const titleInput =
-                    document.getElementById(
-                        "newsTitle"
-                    );
-
-                const contentInput =
-                    document.getElementById(
-                        "newsContent"
-                    );
-
-                if (
-                    !titleInput ||
-                    !contentInput
-                ) {
-                    return;
-                }
-
-                const formData =
-                    new FormData();
-
-                formData.append(
-                    "title",
-                    titleInput.value.trim()
-                );
-
-                let category =
-                    newsCategorySelect
-                        ? newsCategorySelect.value
-                        : "Maraqlı";
-
-                if (
-                    category === "custom" &&
-                    customCategoryInput
-                ) {
-
-                    category =
-                        customCategoryInput.value.trim() ||
-                        "Maraqlı";
-                }
-
-                formData.append(
-                    "category",
-                    category
-                );
-
-                formData.append(
-                    "content",
-                    contentInput.value.trim()
-                );
-
-                formData.append(
-                    "password",
-                    currentAdminPassword
-                );
-
-                formData.append(
-                    "date",
-                    new Date().toLocaleString()
-                );
-
-                formData.append(
-                    "createdAt",
-                    Date.now()
-                );
-
-                if (
-                    newsVideoUrlInput &&
-                    newsVideoUrlInput.value.trim() !== ""
-                ) {
-
-                    formData.append(
-                        "videoUrl",
-                        newsVideoUrlInput.value.trim()
-                    );
-                }
-
-                const imageFile =
-                    newsImageInput &&
-                    newsImageInput.files[0]
-                        ? newsImageInput.files[0]
-                        : null;
-
-                if (imageFile) {
-                    formData.append(
-                        "sekil",
-                        imageFile
-                    );
-                }
-
-                const videoFile =
-                    newsVideoFileInput &&
-                    newsVideoFileInput.files[0]
-                        ? newsVideoFileInput.files[0]
-                        : null;
-
-                if (videoFile) {
-
-                    formData.append(
-                        "newsVideoFile",
-                        videoFile
-                    );
-                }
-
-                const submitBtn =
-                    newsForm.querySelector(
-                        ".submit-btn"
-                    ) ||
-                    newsForm.querySelector(
-                        'button[type="submit"]'
-                    );
-
-                if (submitBtn) {
-
-                    submitBtn.disabled = true;
-
-                    submitBtn.textContent =
-                        "Paylaşılır...";
-                }
-
-                fetch("/api/news", {
-                    method: "POST",
-                    body: formData
-                })
-                    .then(async res => {
-
-                        const contentType =
-                            res.headers.get(
-                                "content-type"
-                            );
-
-                        if (
-                            contentType &&
-                            contentType.includes(
-                                "application/json"
-                            )
-                        ) {
-
-                            return res.json();
-
-                        } else {
-
-                            throw new Error(
-                                "Server düzgün cavab qaytarmadı (API tapılmadı)."
-                            );
-                        }
-                    })
-                    .then(response => {
-
-                        alert(
-                            response.message ||
-                            "Xəbər əlavə olundu!"
-                        );
-
-                        if (response.success) {
-
-                            newsForm.reset();
-
-                            if (customCategoryInput) {
-                                customCategoryInput.style.display =
-                                    "none";
-                            }
-
-                            if (imagePreview) {
-                                imagePreview.src = "";
-                            }
-
-                            if (imagePreviewContainer) {
-                                imagePreviewContainer.style.display =
-                                    "none";
-                            }
-
-                            if (adminSection) {
-                                adminSection.style.display =
-                                    "none";
-                            }
-
-                            if (adminBtn) {
-                                adminBtn.textContent =
-                                    translations[
-                                        currentLang
-                                    ].adminPanelBtn;
-                            }
-
-                            loadNews();
-                        }
-                    })
-                    .catch(err => {
-
-                        console.error(err);
-
-                        alert(
-                            "Xəbər göndərilərkən xəta baş verdi: " +
-                            err.message
-                        );
-                    })
-                    .finally(() => {
-
-                        if (submitBtn) {
-
-                            submitBtn.disabled = false;
-
-                            submitBtn.textContent =
-                                translations[
-                                    currentLang
-                                ].publishBtn;
-                        }
-                    });
-            }
-        );
-    }
-
+    // SƏHİFƏ AÇILANDA XƏBƏRLƏRİ YÜKLƏ
     loadNews();
+
 });
