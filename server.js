@@ -8,7 +8,6 @@ process.on('unhandledRejection', (reason, promise) => {
 
 require('dotenv').config();
 const express = require('express');
-const fsSync = require('fs');
 const path = require('path');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -22,38 +21,9 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const UPLOAD_DIR = path.join(__dirname, 'sekil');
-
-if (!fsSync.existsSync(UPLOAD_DIR)) {
-    fsSync.mkdirSync(UPLOAD_DIR, { recursive: true });
-}
-
-const fileFilter = (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png|webp|mp4|mov|avi|mkv/;
-    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = allowedTypes.test(file.mimetype);
-
-    if (extname && mimetype) {
-        return cb(null, true);
-    } else {
-        cb(new Error("Yalnız şəkil və video fayllarına icazə verilir!"));
-    }
-};
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, UPLOAD_DIR);
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
-});
-
 const upload = multer({ 
-    storage: storage,
-    limits: { fileSize: 50 * 1024 * 1024 },
-    fileFilter: fileFilter
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 100 * 1024 * 1024 }
 });
 
 app.use(helmet({ contentSecurityPolicy: false }));
@@ -77,6 +47,36 @@ app.use('/sekil', express.static(path.join(__dirname, 'sekil')));
 
 app.use('/api/', apiLimiter);
 
+// 📌 3 gündən bir köhnə xəbərlərin avtomatik təmizlənməsi (NeverDelete qorunması ilə)
+async function cleanOldNews() {
+    try {
+        const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
+        const now = Date.now();
+
+        const { data: newsList, error: fetchError } = await supabase
+            .from('news')
+            .select('*')
+            .neq('category', 'SYSTEM_VISITS');
+
+        if (fetchError || !newsList) return;
+
+        for (const item of newsList) {
+            const created = item.createdAt || item.timestamp || 0;
+            const isNeverDelete = item.neverDelete === true || item.neverDelete === "true" || item.neverDelete === 1 || item.neverDelete === "1";
+
+            if (!isNeverDelete && (now - created > THREE_DAYS_MS)) {
+                await supabase.from('news').delete().eq('id', item.id);
+                console.log(`🗑️ Avtomatik silindi (3 günü bitdi): ${item.title}`);
+            }
+        }
+    } catch (err) {
+        console.error("Avtomatik təmizləmə xətası:", err);
+    }
+}
+
+cleanOldNews();
+setInterval(cleanOldNews, 60 * 60 * 1000);
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'sayt.html'));
 });
@@ -93,44 +93,6 @@ app.post('/api/news/test-auth', adminLimiter, (req, res) => {
 
 app.get('/api/news', async (req, res) => {
     try {
-        const now = Date.now();
-        const THREE_DAYS = 3 * 24 * 60 * 60 * 1000; 
-        const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;   
-
-        const newsExpireTime = now - THREE_DAYS;
-        const statsExpireTime = now - ONE_WEEK;
-
-        const { data: oldNews, error: fetchError } = await supabase
-            .from('news')
-            .select('*')
-            .neq('category', 'SYSTEM_VISITS')
-            .lt('createdAt', newsExpireTime);
-
-        if (!fetchError && oldNews && oldNews.length > 0) {
-            for (let item of oldNews) {
-                if (item.sekil) {
-                    const imagePath = path.join(UPLOAD_DIR, item.sekil);
-                    if (fsSync.existsSync(imagePath)) fsSync.unlinkSync(imagePath);
-                }
-                if (item.videoFile) {
-                    const videoPath = path.join(UPLOAD_DIR, item.videoFile);
-                    if (fsSync.existsSync(videoPath)) fsSync.unlinkSync(videoPath);
-                }
-            }
-
-            await supabase
-                .from('news')
-                .delete()
-                .neq('category', 'SYSTEM_VISITS')
-                .lt('createdAt', newsExpireTime);
-        }
-
-        await supabase
-            .from('news')
-            .delete()
-            .eq('category', 'SYSTEM_VISITS')
-            .lt('createdAt', statsExpireTime);
-
         const { data, error } = await supabase
             .from('news')
             .select('*')
@@ -140,7 +102,7 @@ app.get('/api/news', async (req, res) => {
 
         res.json(data || []);
     } catch (err) {
-        console.error("Məlumatları oxumaq və təmizləmək xətası:", err);
+        console.error("Məlumatları oxumaq xətası:", err);
         res.status(500).json({ success: false, message: "Server xətası" });
     }
 });
@@ -149,7 +111,7 @@ app.post('/api/news', adminLimiter, upload.fields([
     { name: 'sekil', maxCount: 1 },
     { name: 'newsVideoFile', maxCount: 1 }
 ]), async (req, res) => {
-    const { title, content, category, password, date, createdAt, videoUrl } = req.body;
+    const { title, content, category, password, date, createdAt, videoUrl, neverDelete, pinned } = req.body;
     const currentEnvPassword = process.env.ADMIN_PASSWORD;
 
     if (!currentEnvPassword || password !== currentEnvPassword) {
@@ -162,8 +124,37 @@ app.post('/api/news', adminLimiter, upload.fields([
 
     try {
         const cat = category && category.trim() !== "" ? category : "Maraqlı";
-        const sekilFileName = req.files && req.files['sekil'] ? req.files['sekil'][0].filename : "";
-        const videoFileName = req.files && req.files['newsVideoFile'] ? req.files['newsVideoFile'][0].filename : "";
+        
+        let sekilData = "";
+        if (req.files && req.files['sekil'] && req.files['sekil'][0]) {
+            const file = req.files['sekil'][0];
+            const b64 = Buffer.from(file.buffer).toString('base64');
+            sekilData = `data:${file.mimetype};base64,${b64}`;
+        }
+
+        let videoFileUrl = "";
+        if (req.files && req.files['newsVideoFile'] && req.files['newsVideoFile'][0]) {
+            const vFile = req.files['newsVideoFile'][0];
+            const fileName = `video_${Date.now()}_${vFile.originalname}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from('news')
+                .upload(fileName, vFile.buffer, {
+                    contentType: vFile.mimetype,
+                    upsert: true
+                });
+
+            if (uploadError) {
+                console.error("Video yüklənmə xətası:", uploadError);
+                return res.status(500).json({ success: false, message: "Video yüklənə bilmədi: " + uploadError.message });
+            }
+
+            const { data: publicURLData } = supabase.storage
+                .from('news')
+                .getPublicUrl(fileName);
+                
+            videoFileUrl = publicURLData.publicUrl;
+        }
 
         const timeVal = createdAt ? Number(createdAt) : Date.now();
 
@@ -172,9 +163,12 @@ app.post('/api/news', adminLimiter, upload.fields([
             title,
             content,
             category: cat,
-            sekil: sekilFileName,
-            videoFile: videoFileName,
+            sekil: sekilData,
+            videoFile: videoFileUrl,
             videoUrl: videoUrl || "",
+            // Supabase cədvəlinə tam uyğun tip ötürmələri:
+            neverDelete: (neverDelete === "true" || neverDelete === true) ? "true" : "false",
+            pinned: pinned === "true" || pinned === true,
             date: date || new Date().toLocaleString('az-AZ'),
             timestamp: timeVal,
             createdAt: timeVal,
@@ -197,8 +191,9 @@ app.post('/api/news', adminLimiter, upload.fields([
     }
 });
 
+// 📌 Silmə funksiyası (Headers və Body qəbulu ilə)
 app.delete('/api/news/:id', adminLimiter, async (req, res) => {
-    const password = req.body?.password || req.headers['x-password'];
+    const password = req.headers['x-password'] || req.body?.password;
     const newsId = req.params.id;
     const currentEnvPassword = process.env.ADMIN_PASSWORD;
 
@@ -207,25 +202,6 @@ app.delete('/api/news/:id', adminLimiter, async (req, res) => {
     }
 
     try {
-        const { data: itemToDelete, error: fetchError } = await supabase
-            .from('news')
-            .select('*')
-            .eq('id', newsId)
-            .single();
-
-        if (fetchError || !itemToDelete) {
-            return res.status(404).json({ success: false, message: "Xəbər tapılmadı" });
-        }
-
-        if (itemToDelete.sekil) {
-            const imagePath = path.join(UPLOAD_DIR, itemToDelete.sekil);
-            if (fsSync.existsSync(imagePath)) fsSync.unlinkSync(imagePath);
-        }
-        if (itemToDelete.videoFile) {
-            const videoPath = path.join(UPLOAD_DIR, itemToDelete.videoFile);
-            if (fsSync.existsSync(videoPath)) fsSync.unlinkSync(videoPath);
-        }
-
         const { error: deleteError } = await supabase
             .from('news')
             .delete()
@@ -404,9 +380,10 @@ app.post('/api/news/:id/comment', async (req, res) => {
         res.status(500).json({ success: false, message: "Xəta baş verdi" });
     }
 });
+
 app.delete('/api/news/:newsId/comment/:commentId', adminLimiter, async (req, res) => {
     try {
-        const password = req.body?.password || req.headers['x-password'];
+        const password = req.headers['x-password'] || req.body?.password;
         const newsId = req.params.newsId;
         const commentId = req.params.commentId;
         const currentEnvPassword = process.env.ADMIN_PASSWORD;
@@ -428,12 +405,12 @@ app.delete('/api/news/:newsId/comment/:commentId', adminLimiter, async (req, res
         let comments = item.comments || [];
         comments = comments.filter(c => String(c.id) !== commentId);
 
-        const { error: updateError } = await supabase
+        const { error: updateDate } = await supabase
             .from('news')
             .update({ comments: comments })
             .eq('id', newsId);
 
-        if (updateError) throw updateError;
+        if (updateDate) throw updateDate;
 
         res.json({ success: true, comments: comments });
     } catch (err) {
@@ -443,5 +420,5 @@ app.delete('/api/news/:newsId/comment/:commentId', adminLimiter, async (req, res
 });
 
 app.listen(PORT, () => {
-    console.log(`Server Supabase ilə aktivdir: http://localhost:${PORT}`);
+    console.log(`Server aktivdir: http://localhost:${PORT}`);
 });
