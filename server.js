@@ -8,6 +8,7 @@ process.on('unhandledRejection', (reason, promise) => {
 
 require('dotenv').config();
 const express = require('express');
+const fsSync = require('fs');
 const path = require('path');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -21,9 +22,38 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+const UPLOAD_DIR = path.join(__dirname, 'sekil');
+
+if (!fsSync.existsSync(UPLOAD_DIR)) {
+    fsSync.mkdirSync(UPLOAD_DIR, { recursive: true });
+}
+
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|webp|mp4|mov|avi|mkv/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+
+    if (extname && mimetype) {
+        return cb(null, true);
+    } else {
+        cb(new Error("Yalnız şəkil və video fayllarına icazə verilir!"));
+    }
+};
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, UPLOAD_DIR);
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
 const upload = multer({ 
-    storage: multer.memoryStorage(),
-    limits: { fileSize: 50 * 1024 * 1024 }
+    storage: storage,
+    limits: { fileSize: 50 * 1024 * 1024 },
+    fileFilter: fileFilter
 });
 
 app.use(helmet({ contentSecurityPolicy: false }));
@@ -70,11 +100,30 @@ app.get('/api/news', async (req, res) => {
         const newsExpireTime = now - THREE_DAYS;
         const statsExpireTime = now - ONE_WEEK;
 
-        await supabase
+        const { data: oldNews, error: fetchError } = await supabase
             .from('news')
-            .delete()
+            .select('*')
             .neq('category', 'SYSTEM_VISITS')
             .lt('createdAt', newsExpireTime);
+
+        if (!fetchError && oldNews && oldNews.length > 0) {
+            for (let item of oldNews) {
+                if (item.sekil) {
+                    const imagePath = path.join(UPLOAD_DIR, item.sekil);
+                    if (fsSync.existsSync(imagePath)) fsSync.unlinkSync(imagePath);
+                }
+                if (item.videoFile) {
+                    const videoPath = path.join(UPLOAD_DIR, item.videoFile);
+                    if (fsSync.existsSync(videoPath)) fsSync.unlinkSync(videoPath);
+                }
+            }
+
+            await supabase
+                .from('news')
+                .delete()
+                .neq('category', 'SYSTEM_VISITS')
+                .lt('createdAt', newsExpireTime);
+        }
 
         await supabase
             .from('news')
@@ -113,20 +162,8 @@ app.post('/api/news', adminLimiter, upload.fields([
 
     try {
         const cat = category && category.trim() !== "" ? category : "Maraqlı";
-        
-        let sekilData = "";
-        if (req.files && req.files['sekil'] && req.files['sekil'][0]) {
-            const file = req.files['sekil'][0];
-            const b64 = Buffer.from(file.buffer).toString('base64');
-            sekilData = `data:${file.mimetype};base64,${b64}`;
-        }
-
-        let videoFileData = "";
-        if (req.files && req.files['newsVideoFile'] && req.files['newsVideoFile'][0]) {
-            const vFile = req.files['newsVideoFile'][0];
-            const vb64 = Buffer.from(vFile.buffer).toString('base64');
-            videoFileData = `data:${vFile.mimetype};base64,${vb64}`;
-        }
+        const sekilFileName = req.files && req.files['sekil'] ? req.files['sekil'][0].filename : "";
+        const videoFileName = req.files && req.files['newsVideoFile'] ? req.files['newsVideoFile'][0].filename : "";
 
         const timeVal = createdAt ? Number(createdAt) : Date.now();
 
@@ -135,8 +172,8 @@ app.post('/api/news', adminLimiter, upload.fields([
             title,
             content,
             category: cat,
-            sekil: sekilData,
-            videoFile: videoFileData,
+            sekil: sekilFileName,
+            videoFile: videoFileName,
             videoUrl: videoUrl || "",
             date: date || new Date().toLocaleString('az-AZ'),
             timestamp: timeVal,
@@ -170,6 +207,25 @@ app.delete('/api/news/:id', adminLimiter, async (req, res) => {
     }
 
     try {
+        const { data: itemToDelete, error: fetchError } = await supabase
+            .from('news')
+            .select('*')
+            .eq('id', newsId)
+            .single();
+
+        if (fetchError || !itemToDelete) {
+            return res.status(404).json({ success: false, message: "Xəbər tapılmadı" });
+        }
+
+        if (itemToDelete.sekil) {
+            const imagePath = path.join(UPLOAD_DIR, itemToDelete.sekil);
+            if (fsSync.existsSync(imagePath)) fsSync.unlinkSync(imagePath);
+        }
+        if (itemToDelete.videoFile) {
+            const videoPath = path.join(UPLOAD_DIR, itemToDelete.videoFile);
+            if (fsSync.existsSync(videoPath)) fsSync.unlinkSync(videoPath);
+        }
+
         const { error: deleteError } = await supabase
             .from('news')
             .delete()
@@ -348,7 +404,6 @@ app.post('/api/news/:id/comment', async (req, res) => {
         res.status(500).json({ success: false, message: "Xəta baş verdi" });
     }
 });
-
 app.delete('/api/news/:newsId/comment/:commentId', adminLimiter, async (req, res) => {
     try {
         const password = req.body?.password || req.headers['x-password'];
@@ -373,12 +428,12 @@ app.delete('/api/news/:newsId/comment/:commentId', adminLimiter, async (req, res
         let comments = item.comments || [];
         comments = comments.filter(c => String(c.id) !== commentId);
 
-        const { error: updateDate } = await supabase
+        const { error: updateError } = await supabase
             .from('news')
             .update({ comments: comments })
             .eq('id', newsId);
 
-        if (updateDate) throw updateDate;
+        if (updateError) throw updateError;
 
         res.json({ success: true, comments: comments });
     } catch (err) {
