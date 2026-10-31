@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="pageTitle">Mənim Xəbər Portalım</title>
+    <title data-i18n="pageTitle">AzerbaijanInfo</title>
     <link rel="stylesheet" href="sayt.css">
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
 </head>
 <body>
     <nav class="navbar">
-        <h2 data-i18n="navTitle">Xəbər Portalı</h2>
+        <h2 data-i18n="navTitle">AzerbaijanInfo</h2>
         
         <div class="lang-selector">
             <select id="langSelect" onchange="changeLanguage(this.value)">
@@ -104,6 +104,19 @@
 
                     <textarea id="newsContent" rows="4" data-i18n-placeholder="newsContentPlaceholder" placeholder="Xəbər mətni..." required></textarea>
                     
+                    <!-- Sabitləmə və Heç vaxt silinməsin seçimləri formun içində -->
+                    <div style="margin: 12px 0; display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-main); font-size: 13px;">
+                            <input type="checkbox" id="pinNewsCheckbox" style="accent-color: var(--accent); width: 16px; height: 16px;">
+                            📌 Ən üstdə sabitlə (Pin)
+                        </label>
+                        
+                        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-main); font-size: 13px;">
+                            <input type="checkbox" id="neverDelete" style="accent-color: var(--accent); width: 16px; height: 16px;">
+                            🔒 Heç vaxt silinməsin
+                        </label>
+                    </div>
+
                     <button type="submit" class="submit-btn" data-i18n="publishBtn">Paylaş</button>
                 </form>
             </div>
@@ -120,22 +133,23 @@
         <h2 data-i18n="latestNewsTitle">Son Xəbərlər</h2>
         <div id="newsContainer"></div>
     </div>
-<!-- Şəkil Böyütmə Modalı -->
-<div id="imageModal" class="image-modal" onclick="closeImageModal()">
-    <img id="modalImage" src="" alt="Böyük şəkil">
-</div>
 
-<script>
-    function openImageModal(imgSrc) {
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
-        modal.style.display = 'flex';
-        modalImg.src = imgSrc;
-    }
-    function closeImageModal() {
-        document.getElementById('imageModal').style.display = 'none';
-    }
-</script>
+    <!-- Şəkil Böyütmə Modalı -->
+    <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+        <img id="modalImage" alt="Böyük şəkil">
+    </div>
+
+    <script>
+        function openImageModal(imgSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.style.display = 'flex';
+            modalImg.src = imgSrc;
+        }
+        function closeImageModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+    </script>
     <script src="sayt.js"></script>
 </body>
 </html>
