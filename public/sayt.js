@@ -1,7 +1,7 @@
 const translations = {
     az: {
-        pageTitle: "AzerbaijanInfo",
-        navTitle: "AzerbaijanInfo",
+        pageTitle: "InfoAzerbaijan",
+        navTitle: "InfoAzerbaijan",
         adminPanelBtn: "⚙️ Admin Panel",
         closePanelBtn: "✕ Paneli Bağla",
         adminLoginTitle: "🔐 Admin Girişi",
@@ -43,8 +43,8 @@ const translations = {
         neverDelete: "🔒 Heç vaxt silinməsin"
     },
     en: {
-        pageTitle: "AzerbaijanInfo",
-        navTitle: "AzerbaijanInfo",
+        pageTitle: "InfoAzerbaijan",
+        navTitle: "InfoAzerbaijan",
         adminPanelBtn: "⚙️ Admin Panel",
         closePanelBtn: "✕ Close Panel",
         adminLoginTitle: "🔐 Admin Login",
@@ -86,8 +86,8 @@ const translations = {
         neverDelete: "🔒 Never delete"
     },
     de: {
-        pageTitle: "AzerbaijanInfo",
-        navTitle: "AzerbaijanInfo",
+        pageTitle: "InfoAzerbaijan",
+        navTitle: "InfoAzerbaijan",
         adminPanelBtn: "⚙️ Admin-Panel",
         closePanelBtn: "✕ Panel schließen",
         adminLoginTitle: "🔐 Admin-Anmeldung",
@@ -129,8 +129,8 @@ const translations = {
         neverDelete: "🔒 Niemals löschen"
     },
     tr: {
-        pageTitle: "AzerbaijanInfo",
-        navTitle: "AzerbaijanInfo",
+        pageTitle: "InfoAzerbaijan",
+        navTitle: "InfoAzerbaijan",
         adminPanelBtn: "⚙️ Admin Panel",
         closePanelBtn: "✕ Paneli Kapat",
         adminLoginTitle: "🔐 Admin Girişi",
@@ -172,8 +172,8 @@ const translations = {
         neverDelete: "🔒 Asla silinmesin"
     },
     ru: {
-        pageTitle: "AzerbaijanInfo",
-        navTitle: "AzerbaijanInfo",
+        pageTitle: "InfoAzerbaijan",
+        navTitle: "InfoAzerbaijan",
         adminPanelBtn: "⚙️ Админ Панель",
         closePanelBtn: "✕ Закрыть панель",
         adminLoginTitle: "🔐 Вход",
@@ -215,8 +215,8 @@ const translations = {
         neverDelete: "🔒 Никогда не удалять"
     },
     es: {
-        pageTitle: "AzerbaijanInfo",
-        navTitle: "AzerbaijanInfo",
+        pageTitle: "InfoAzerbaijan",
+        navTitle: "InfoAzerbaijan",
         adminPanelBtn: "⚙️ Admin",
         closePanelBtn: "✕ Cerrar",
         adminLoginTitle: "🔐 Acceso",
@@ -258,8 +258,8 @@ const translations = {
         neverDelete: "🔒 No eliminar nunca"
     },
     fr: {
-        pageTitle: "AzerbaijanInfo",
-        navTitle: "AzerbaijanInfo",
+        pageTitle: "InfoAzerbaijan",
+        navTitle: "InfoAzerbaijan",
         adminPanelBtn: "⚙️ Admin",
         closePanelBtn: "✕ Fermer",
         adminLoginTitle: "🔐 Connexion",
@@ -301,8 +301,8 @@ const translations = {
         neverDelete: "🔒 Ne jamais supprimer"
     },
     it: {
-        pageTitle: "AzerbaijanInfo",
-        navTitle: "AzerbaijanInfo",
+        pageTitle: "InfoAzerbaijan",
+        navTitle: "InfoAzerbaijan",
         adminPanelBtn: "⚙️ Admin",
         closePanelBtn: "✕ Chiudi",
         adminLoginTitle: "🔐 Accesso",
@@ -344,8 +344,8 @@ const translations = {
         neverDelete: "🔒 Non eliminare mai"
     },
     ar: {
-        pageTitle: "AzerbaijanInfo",
-        navTitle: "AzerbaijanInfo",
+        pageTitle: "InfoAzerbaijan",
+        navTitle: "InfoAzerbaijan",
         adminPanelBtn: "⚙️ لوحة التحكم",
         closePanelBtn: "✕ إغلاق",
         adminLoginTitle: "🔐 تسجيل الدخول",
@@ -387,8 +387,8 @@ const translations = {
         neverDelete: "🔒 لا تحذف أبداً"
     },
     zh: {
-        pageTitle: "AzerbaijanInfo",
-        navTitle: "AzerbaijanInfo",
+        pageTitle: "InfoAzerbaijan",
+        navTitle: "InfoAzerbaijan",
         adminPanelBtn: "⚙️ 管理面板",
         closePanelBtn: "✕ 关闭",
         adminLoginTitle: "🔐 管理员登录",
