@@ -1,155 +1,493 @@
-<!DOCTYPE html>
-<html lang="az">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="pageTitle">InfoAzerbaijan</title>
-    <link rel="stylesheet" href="sayt.css">
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
-</head>
-<body>
-    <nav class="navbar">
-        <h2 data-i18n="navTitle">InfoAzerbaijan</h2>
-        
-        <div class="lang-selector">
-            <select id="langSelect" onchange="changeLanguage(this.value)">
-                <option value="az">🇦🇿 Azərbaycanca</option>
-                <option value="en">🇬🇧 English</option>
-                <option value="de">🇩🇪 Deutsch</option>
-                <option value="tr">🇹🇷 Türkçe</option>
-                <option value="ru">🇷🇺 Русский</option>
-                <option value="es">🇪🇸 Español</option>
-                <option value="fr">🇫🇷 Français</option>
-                <option value="it">🇮🇹 Italiano</option>
-                <option value="ar">🇸🇦 العربية</option>
-                <option value="zh">🇨🇳 中文</option>
-            </select>
-        </div>
+<!DOCTYPE html>  <html lang="az">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <meta name="description" content="InfoAzerbaijan - Azərbaycandan və dünyadan son xəbərlər.">  
+<meta name="theme-color" content="#111827">  
 
-        <div style="display: flex; gap: 8px; align-items: center;">
-            <button id="themeToggleBtn" class="admin-btn" style="background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 9px 12px;">☀️</button>
-            <button id="adminToggleButton" class="admin-btn" data-i18n="adminPanelBtn">⚙️ Admin Panel</button>
-        </div>
-    </nav>
+<title data-i18n="pageTitle">InfoAzerbaijan</title>  
 
-    <div class="container">
-        <!-- Admin Paneli -->
-        <div id="adminSection" class="admin-panel" style="display: none;">
-            <h3 data-i18n="adminLoginTitle" style="margin-bottom: 12px;">🔐 Admin Girişi</h3>
-            <div id="adminLoginBox">
-                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;" data-i18n="adminLoginDesc">Admin panelinə baxmaq üçün şifrəni daxil edin:</p>
-                <input type="password" id="initialAdminPassword" data-i18n-placeholder="passwordPlaceholder" placeholder="Admin Şifrəsi">
-                <button type="button" id="checkPasswordBtn" class="submit-btn" style="margin-top: 12px; width: 100%;" data-i18n="loginBtn">Daxil Ol</button>
-            </div>
+<link rel="stylesheet" href="sayt.css">  
 
-            <div id="adminMainContent" style="display: none;">
-                <h3 data-i18n="adminDashboardTitle" style="margin-bottom: 16px;">📊 Admin İdarəetmə Paneli</h3>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
 
-                <div class="stats-grid">
-                    <div class="stat-box"><h4 id="totalNews">0</h4><span data-i18n="statTotalNews">Cəmi Xəbər</span></div>
-                    <div class="stat-box"><h4 id="totalLikes">0</h4><span data-i18n="statTotalLikes">Ümumi Bəyənmə</span></div>
-                    <div class="stat-box"><h4 id="totalComments">0</h4><span data-i18n="statTotalComments">Ümumi Şərh</span></div>
-                </div>
+</head>  <body>  <!-- NAVİQASİYA -->  
+<nav class="navbar">  
 
-                <!-- 📊 Birləşdirilmiş Statistika Cədvəli -->
-                <div style="margin-top: 24px; margin-bottom: 20px;">
-                    <h3 style="font-size: 14px; margin-bottom: 10px; color: var(--accent);">📊 Son 1 Həftənin Ümumi Statistikası</h3>
-                    <div style="overflow-x: auto;">
-                        <table class="stats-table">
-                            <thead>
-                                <tr>
-                                    <th>Xəbər Başlığı / Tarix</th>
-                                    <th>Kateqoriya</th>
-                                    <th>Baxış / Ziyarətçi</th>
-                                    <th>Bəyənmə</th>
-                                    <th>Şərh</th>
-                                    <th>Tarix Məlumatı</th>
-                                </tr>
-                            </thead>
-                            <tbody id="combinedStatsTableBody">
-                                <!-- JS vasitəsilə daxil ediləcək -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    <h2 data-i18n="navTitle">InfoAzerbaijan</h2>  
 
-                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 20px 0;">
+    <div class="lang-selector">  
+        <select id="langSelect" onchange="changeLanguage(this.value)">  
+            <option value="az">🇦🇿 Azərbaycanca</option>  
+            <option value="en">🇬🇧 English</option>  
+            <option value="de">🇩🇪 Deutsch</option>  
+            <option value="tr">🇹🇷 Türkçe</option>  
+            <option value="ru">🇷🇺 Русский</option>  
+            <option value="es">🇪🇸 Español</option>  
+            <option value="fr">🇫🇷 Français</option>  
+            <option value="it">🇮🇹 Italiano</option>  
+            <option value="ar">🇸🇦 العربية</option>  
+            <option value="zh">🇨🇳 中文</option>  
+        </select>  
+    </div>  
 
-                <h3 data-i18n="createNewNewsTitle" style="margin-bottom: 12px;">Yeni Xəbər Yaradın</h3>
-                <form id="newsForm">
-                    <input type="text" id="newsTitle" data-i18n-placeholder="newsTitlePlaceholder" placeholder="Xəbərin Başlığı" required>
-                    
-                    <select id="newsCategorySelect" required>
-                        <option value="" disabled selected data-i18n="catSelectDefault">Kateqoriya seçin</option>
-                        <option value="Siyasət" data-i18n="catPolitics">Siyasət</option>
-                        <option value="İdman" data-i18n="catSports">İdman</option>
-                        <option value="İqtisadiyyat" data-i18n="catEconomy">İqtisadiyyat</option>
-                        <option value="Maraqlı" data-i18n="catInteresting">Maraqlı</option>
-                        <option value="custom" data-i18n="catCustom">+ Digər (Yeni kateqoriya)</option>
-                    </select>
+    <div style="display:flex; gap:8px; align-items:center;">  
 
-                    <input type="text" id="customCategoryInput" data-i18n-placeholder="customCatPlaceholder" placeholder="Yeni kateqoriyanın adı" style="display: none;">
+        <button  
+            id="themeToggleBtn"  
+            class="admin-btn"  
+            type="button"  
+            style="  
+                background:var(--bg-card);  
+                border:1px solid var(--border-color);  
+                color:var(--text-main);  
+                padding:9px 12px;  
+            "  
+            aria-label="Mövzunu dəyiş">  
+            ☀️  
+        </button>  
 
-                    <label style="font-size: 12px; color: var(--text-muted); font-weight: 500;" data-i18n="selectImageLabel">Şəkil Seç:</label>
-                    <input type="file" id="newsImage" accept="image/*">
-                    
-                    <div id="imagePreviewContainer" style="display: none;">
-                        <img id="imagePreview" alt="Şəkil önizləməsi" style="width: 100%; max-height: 180px; object-fit: cover; border-radius: 10px;">
-                    </div>
+        <button  
+            id="adminToggleButton"  
+            class="admin-btn"  
+            type="button"  
+            data-i18n="adminPanelBtn">  
+            ⚙️ Admin Panel  
+        </button>  
 
-                    <label style="font-size: 12px; color: var(--text-muted); font-weight: 500;" data-i18n="selectVideoLabel">Video Faylı (İstəyə bağlı):</label>
-                    <input type="file" id="newsVideoFile" accept="video/*">
+    </div>  
 
-                    <input type="text" id="newsVideoUrl" data-i18n-placeholder="videoUrlPlaceholder" placeholder="Və ya Video URL (YouTube / MP4 linki)">
+</nav>  
 
-                    <textarea id="newsContent" rows="4" data-i18n-placeholder="newsContentPlaceholder" placeholder="Xəbər mətni..." required></textarea>
-                    
-                    <!-- Sabitləmə və Heç vaxt silinməsin seçimləri formun içində -->
-                    <div style="margin: 12px 0; display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-main); font-size: 13px;">
-                            <input type="checkbox" id="pinNewsCheckbox" style="accent-color: var(--accent); width: 16px; height: 16px;">
-                            📌 Ən üstdə sabitlə (Pin)
-                        </label>
-                        
-                        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-main); font-size: 13px;">
-                            <input type="checkbox" id="neverDelete" style="accent-color: var(--accent); width: 16px; height: 16px;">
-                            🔒 Heç vaxt silinməsin
-                        </label>
-                    </div>
 
-                    <button type="submit" class="submit-btn" data-i18n="publishBtn">Paylaş</button>
-                </form>
-            </div>
-        </div>
+<!-- ƏSAS KONTEYNER -->  
+<main class="container">  
 
-        <div style="margin-bottom: 20px;">
-            <input type="text" id="searchInput" data-i18n-placeholder="searchInputPlaceholder" placeholder="🔍 Xəbərlərdə axtarış et...">
-        </div>
+    <!-- ADMİN PANELİ -->  
+    <section  
+        id="adminSection"  
+        class="admin-panel"  
+        style="display:none;"  
+    >  
 
-        <div class="category-container">
-            <div class="category-buttons" id="categoryButtonsContainer"></div>
-        </div>
+        <h3  
+            data-i18n="adminLoginTitle"  
+            style="margin-bottom:12px;"  
+        >  
+            🔐 Admin Girişi  
+        </h3>  
 
-        <h2 data-i18n="latestNewsTitle">Son Xəbərlər</h2>
-        <div id="newsContainer"></div>
-    </div>
+        <!-- ADMİN GİRİŞİ -->  
+        <div id="adminLoginBox">  
 
-    <!-- Şəkil Böyütmə Modalı -->
-    <div id="imageModal" class="image-modal" onclick="closeImageModal()">
-        <img id="modalImage" alt="Böyük şəkil">
-    </div>
+            <p  
+                style="  
+                    font-size:13px;  
+                    color:var(--text-muted);  
+                    margin-bottom:12px;  
+                "  
+                data-i18n="adminLoginDesc"  
+            >  
+                Admin panelinə baxmaq üçün şifrəni daxil edin:  
+            </p>  
 
-    <script>
-        function openImageModal(imgSrc) {
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-            modal.style.display = 'flex';
-            modalImg.src = imgSrc;
-        }
-        function closeImageModal() {
-            document.getElementById('imageModal').style.display = 'none';
-        }
-    </script>
-    <script src="sayt.js"></script>
-</body>
+            <input  
+                type="password"  
+                id="initialAdminPassword"  
+                data-i18n-placeholder="passwordPlaceholder"  
+                placeholder="Admin Şifrəsi"  
+                autocomplete="current-password"  
+            >  
+
+            <button  
+                type="button"  
+                id="checkPasswordBtn"  
+                class="submit-btn"  
+                style="margin-top:12px; width:100%;"  
+                data-i18n="loginBtn"  
+            >  
+                Daxil Ol  
+            </button>  
+
+        </div>  
+
+
+        <!-- ADMİN İDARƏETMƏ PANELİ -->  
+        <div id="adminMainContent" style="display:none;">  
+
+            <h3  
+                data-i18n="adminDashboardTitle"  
+                style="margin-bottom:16px;"  
+            >  
+                📊 Admin İdarəetmə Paneli  
+            </h3>  
+
+
+            <!-- STATİSTİKA -->  
+            <div class="stats-grid">  
+
+                <div class="stat-box">  
+                    <h4 id="totalNews">0</h4>  
+                    <span data-i18n="statTotalNews">Cəmi Xəbər</span>  
+                </div>  
+
+                <div class="stat-box">  
+                    <h4 id="totalLikes">0</h4>  
+                    <span data-i18n="statTotalLikes">Ümumi Bəyənmə</span>  
+                </div>  
+
+                <div class="stat-box">  
+                    <h4 id="totalComments">0</h4>  
+                    <span data-i18n="statTotalComments">Ümumi Şərh</span>  
+                </div>  
+
+            </div>  
+
+
+            <!-- HƏFTƏLİK STATİSTİKA -->  
+            <div style="margin-top:24px; margin-bottom:20px;">  
+
+                <h3  
+                    style="  
+                        font-size:14px;  
+                        margin-bottom:10px;  
+                        color:var(--accent);  
+                    "  
+                >  
+                    📊 Son 1 Həftənin Ümumi Statistikası  
+                </h3>  
+
+                <div style="overflow-x:auto;">  
+
+                    <table class="stats-table">  
+
+                        <thead>  
+                            <tr>  
+                                <th>Xəbər Başlığı / Tarix</th>  
+                                <th>Kateqoriya</th>  
+                                <th>Baxış / Ziyarətçi</th>  
+                                <th>Bəyənmə</th>  
+                                <th>Şərh</th>  
+                                <th>Tarix Məlumatı</th>  
+                            </tr>  
+                        </thead>  
+
+                        <tbody id="combinedStatsTableBody">  
+                        </tbody>  
+
+                    </table>  
+
+                </div>  
+
+            </div>  
+
+
+            <hr  
+                style="  
+                    border:0;  
+                    border-top:1px solid var(--border-color);  
+                    margin:20px 0;  
+                "  
+            >  
+
+
+            <!-- YENİ XƏBƏR YARATMA -->  
+            <h3  
+                data-i18n="createNewNewsTitle"  
+                style="margin-bottom:12px;"  
+            >  
+                Yeni Xəbər Yaradın  
+            </h3>  
+
+            <form id="newsForm">  
+
+                <input  
+                    type="text"  
+                    id="newsTitle"  
+                    data-i18n-placeholder="newsTitlePlaceholder"  
+                    placeholder="Xəbərin Başlığı"  
+                    required  
+                >  
+
+
+                <!-- KATEQORİYA -->  
+                <select id="newsCategorySelect" required>  
+
+                    <option  
+                        value=""  
+                        disabled  
+                        selected  
+                        data-i18n="catSelectDefault"  
+                    >  
+                        Kateqoriya seçin  
+                    </option>  
+
+                    <option value="Siyasət" data-i18n="catPolitics">  
+                        Siyasət  
+                    </option>  
+
+                    <option value="İdman" data-i18n="catSports">  
+                        İdman  
+                    </option>  
+
+                    <option value="İqtisadiyyat" data-i18n="catEconomy">  
+                        İqtisadiyyat  
+                    </option>  
+
+                    <option value="Maraqlı" data-i18n="catInteresting">  
+                        Maraqlı  
+                    </option>  
+
+                    <option value="custom" data-i18n="catCustom">  
+                        + Digər (Yeni kateqoriya)  
+                    </option>  
+
+                </select>  
+
+
+                <input  
+                    type="text"  
+                    id="customCategoryInput"  
+                    data-i18n-placeholder="customCatPlaceholder"  
+                    placeholder="Yeni kateqoriyanın adı"  
+                    style="display:none;"  
+                >  
+
+
+                <!-- ŞƏKİL -->  
+                <label  
+                    style="  
+                        font-size:12px;  
+                        color:var(--text-muted);  
+                        font-weight:500;  
+                    "  
+                    data-i18n="selectImageLabel"  
+                >  
+                    Şəkil Seç:  
+                </label>  
+
+                <input  
+                    type="file"  
+                    id="newsImage"  
+                    accept="image/jpeg,image/png,image/webp,image/gif"  
+                >  
+
+
+                <div  
+                    id="imagePreviewContainer"  
+                    style="display:none;"  
+                >  
+
+                    <img  
+                        id="imagePreview"  
+                        alt="Şəkil önizləməsi"  
+                        style="  
+                            width:100%;  
+                            max-height:180px;  
+                            object-fit:cover;  
+                            border-radius:10px;  
+                        "  
+                    >  
+
+                </div>  
+
+
+                <!-- VİDEO -->  
+                <label  
+                    style="  
+                        font-size:12px;  
+                        color:var(--text-muted);  
+                        font-weight:500;  
+                    "  
+                    data-i18n="selectVideoLabel"  
+                >  
+                    Video Faylı (İstəyə bağlı):  
+                </label>  
+
+                <input  
+                    type="file"  
+                    id="newsVideoFile"  
+                    accept="video/mp4,video/webm,video/quicktime"  
+                >  
+
+                <input  
+                    type="text"  
+                    id="newsVideoUrl"  
+                    data-i18n-placeholder="videoUrlPlaceholder"  
+                    placeholder="Və ya Video URL (YouTube / MP4 linki)"  
+                >  
+
+
+                <!-- XƏBƏR MƏTNİ -->  
+                <textarea  
+                    id="newsContent"  
+                    rows="4"  
+                    data-i18n-placeholder="newsContentPlaceholder"  
+                    placeholder="Xəbər mətni..."  
+                    required  
+                ></textarea>  
+
+
+                <!-- XƏBƏR SEÇİMLƏRİ -->  
+                <div  
+                    style="  
+                        margin:12px 0;  
+                        display:flex;  
+                        gap:15px;  
+                        align-items:center;  
+                        flex-wrap:wrap;  
+                    "  
+                >  
+
+                    <label  
+                        style="  
+                            display:flex;  
+                            align-items:center;  
+                            gap:6px;  
+                            cursor:pointer;  
+                            color:var(--text-main);  
+                            font-size:13px;  
+                        "  
+                    >  
+
+                        <input  
+                            type="checkbox"  
+                            id="pinNewsCheckbox"  
+                            style="  
+                                accent-color:var(--accent);  
+                                width:16px;  
+                                height:16px;  
+                            "  
+                        >  
+
+                        📌 Ən üstdə sabitlə (Pin)  
+
+                    </label>  
+
+
+                    <label  
+                        style="  
+                            display:flex;  
+                            align-items:center;  
+                            gap:6px;  
+                            cursor:pointer;  
+                            color:var(--text-main);  
+                            font-size:13px;  
+                        "  
+                    >  
+
+                        <input  
+                            type="checkbox"  
+                            id="neverDelete"  
+                            style="  
+                                accent-color:var(--accent);  
+                                width:16px;  
+                                height:16px;  
+                            "  
+                        >  
+
+                        🔒 Heç vaxt silinməsin  
+
+                    </label>  
+
+                </div>  
+
+
+                <button  
+                    type="submit"  
+                    class="submit-btn"  
+                    data-i18n="publishBtn"  
+                >  
+                    Paylaş  
+                </button>  
+
+            </form>  
+
+        </div>  
+
+    </section>  
+
+
+    <!-- AXTARIŞ -->  
+    <div style="margin-bottom:20px;">  
+
+        <input  
+            type="text"  
+            id="searchInput"  
+            data-i18n-placeholder="searchInputPlaceholder"  
+            placeholder="🔍 Xəbərlərdə axtarış et..."  
+            autocomplete="off"  
+        >  
+
+    </div>  
+
+
+    <!-- KATEQORİYALAR -->  
+    <div class="category-container">  
+
+        <div  
+            class="category-buttons"  
+            id="categoryButtonsContainer"  
+        ></div>  
+
+    </div>  
+
+
+    <!-- SON XƏBƏRLƏR -->  
+    <section aria-label="Son xəbərlər">  
+
+        <h2 data-i18n="latestNewsTitle">  
+            Son Xəbərlər  
+        </h2>  
+
+        <div id="newsContainer"></div>  
+
+    </section>  
+
+</main>  
+
+
+<!-- ŞƏKİL BÖYÜTMƏ MODALI -->  
+<div  
+    id="imageModal"  
+    class="image-modal"  
+    onclick="closeImageModal()"  
+    role="dialog"  
+    aria-modal="true"  
+    aria-label="Böyük şəkil"  
+>  
+
+    <img  
+        id="modalImage"  
+        alt="Böyük şəkil"  
+    >  
+
+</div>  
+
+
+<!-- ŞƏKİL MODAL FUNKSİYALARI -->  
+<script>  
+    function openImageModal(imgSrc) {  
+        const modal = document.getElementById('imageModal');  
+        const modalImg = document.getElementById('modalImage');  
+
+        if (!modal || !modalImg) return;  
+
+        modalImg.src = imgSrc;  
+        modal.style.display = 'flex';  
+    }  
+
+    function closeImageModal() {  
+        const modal = document.getElementById('imageModal');  
+
+        if (modal) {  
+            modal.style.display = 'none';  
+        }  
+    }  
+</script>  
+
+
+<!-- ƏSAS JAVASCRIPT -->  
+<script src="sayt.js"></script>
+
+</body>  
 </html>
