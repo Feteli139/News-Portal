@@ -3,10 +3,11 @@ process.on('uncaughtException', (err) => {
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-    console.error('İdarə olunmayan Promise Xətası (Unhandled Rejection):', reason);
+    console.error('İdarə olunmayan Promise Xətası:', reason);
 });
 
 require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 const helmet = require('helmet');
@@ -19,35 +20,115 @@ const PORT = process.env.PORT || 3000;
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+    console.error('Supabase məlumatları .env faylında yoxdur!');
+    process.exit(1);
+}
+
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const upload = multer({ 
+const upload = multer({
     storage: multer.memoryStorage(),
-    limits: { fileSize: 100 * 1024 * 1024 }
+    limits: {
+        fileSize: 100 * 1024 * 1024
+    }
 });
 
 app.use(helmet({ contentSecurityPolicy: false }));
 
 const adminLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, 
+    windowMs: 15 * 60 * 1000,
     max: 20,
-    message: { success: false, message: "Çoxlu yanlış cəhd! 15 dəqiqə sonra yenidən sınayın." }
+    message: {
+        success: false,
+        message: 'Çoxlu yanlış cəhd! 15 dəqiqə sonra yenidən sınayın.'
+    }
 });
 
 const apiLimiter = rateLimit({
-    windowMs: 1 * 60 * 1000, 
+    windowMs: 1 * 60 * 1000,
     max: 150,
-    message: { success: false, message: "Çox sürətli sorğu göndərirsiniz, zəhmət olmasa bir az gözləyin." }
+    message: {
+        success: false,
+        message: 'Çox sürətli sorğu göndərirsiniz, zəhmət olmasa bir az gözləyin.'
+    }
 });
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/sekil', express.static(path.join(__dirname, 'sekil')));
 
 app.use('/api/', apiLimiter);
 
-// 📌 3 gündən bir köhnə xəbərlərin avtomatik təmizlənməsi (NeverDelete qorunması ilə)
+// =====================================================
+// SUPABASE STORAGE-A FAYL YÜKLƏMƏ FUNKSİYASI
+// HƏM ŞƏKİL, HƏM VİDEO ÜÇÜN EYNİ NEWS BUCKET
+// =====================================================
+
+async function uploadNewsFile(file, fileType) {
+    if (!file || !file.buffer) {
+        throw new Error('Fayl tapılmadı!');
+    }
+
+    const isImage = fileType === 'image';
+
+    if (isImage && !file.mimetype.startsWith('image/')) {
+        throw new Error('Yüklənən fayl şəkil formatında deyil!');
+    }
+
+    if (!isImage && !file.mimetype.startsWith('video/')) {
+        throw new Error('Yüklənən fayl video formatında deyil!');
+    }
+
+    const originalExtension = path.extname(file.originalname || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9.]/g, '');
+
+    const extension = originalExtension || (
+        file.mimetype === 'image/jpeg' ? '.jpg' :
+        file.mimetype === 'image/png' ? '.png' :
+        file.mimetype === 'image/webp' ? '.webp' :
+        file.mimetype === 'image/gif' ? '.gif' :
+        file.mimetype === 'video/mp4' ? '.mp4' :
+        file.mimetype === 'video/webm' ? '.webm' :
+        file.mimetype === 'video/quicktime' ? '.mov' :
+        '.bin'
+    );
+
+    const uniqueName =
+        `${fileType}_${Date.now()}_${Math.random().toString(36).slice(2, 10)}${extension}`;
+
+    // Şəkil və video eyni news Bucket-ə yüklənir.
+    const { error: uploadError } = await supabase.storage
+        .from('news')
+        .upload(uniqueName, file.buffer, {
+            contentType: file.mimetype,
+            upsert: false
+        });
+
+    if (uploadError) {
+        console.error(`${fileType} yükləmə xətası:`, uploadError);
+        throw new Error(uploadError.message);
+    }
+
+    const { data: publicURLData } = supabase.storage
+        .from('news')
+        .getPublicUrl(uniqueName);
+
+    if (!publicURLData || !publicURLData.publicUrl) {
+        throw new Error('Faylın public URL-i əldə edilmədi!');
+    }
+
+    return publicURLData.publicUrl;
+}
+
+// =====================================================
+// 3 GÜNDƏN SONRA KÖHNƏ XƏBƏRLƏRİN SİLİNMƏSİ
+// =====================================================
+
 async function cleanOldNews() {
     try {
         const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
@@ -58,38 +139,77 @@ async function cleanOldNews() {
             .select('*')
             .neq('category', 'SYSTEM_VISITS');
 
-        if (fetchError || !newsList) return;
+        if (fetchError || !newsList) {
+            console.error('Köhnə xəbərləri oxumaq mümkün olmadı:', fetchError);
+            return;
+        }
 
         for (const item of newsList) {
-            const created = item.createdAt || item.timestamp || 0;
-            const isNeverDelete = item.neverDelete === true || item.neverDelete === "true" || item.neverDelete === 1 || item.neverDelete === "1";
+            const created = Number(item.createdAt || item.timestamp || 0);
 
-            if (!isNeverDelete && (now - created > THREE_DAYS_MS)) {
-                await supabase.from('news').delete().eq('id', item.id);
-                console.log(`🗑️ Avtomatik silindi (3 günü bitdi): ${item.title}`);
+            const isNeverDelete =
+                item.neverDelete === true ||
+                item.neverDelete === 'true' ||
+                item.neverDelete === 1 ||
+                item.neverDelete === '1';
+
+            if (
+                !isNeverDelete &&
+                created > 0 &&
+                now - created > THREE_DAYS_MS
+            ) {
+                const { error } = await supabase
+                    .from('news')
+                    .delete()
+                    .eq('id', item.id);
+
+                if (error) {
+                    console.error('Xəbər silinmədi:', error);
+                } else {
+                    console.log(`🗑️ Avtomatik silindi: ${item.title}`);
+                }
             }
         }
     } catch (err) {
-        console.error("Avtomatik təmizləmə xətası:", err);
+        console.error('Avtomatik təmizləmə xətası:', err);
     }
 }
 
 cleanOldNews();
 setInterval(cleanOldNews, 60 * 60 * 1000);
 
+// =====================================================
+// ANA SƏHİFƏ
+// =====================================================
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'sayt.html'));
 });
+
+// =====================================================
+// ADMİN GİRİŞİ
+// =====================================================
 
 app.post('/api/news/test-auth', adminLimiter, (req, res) => {
     const { password } = req.body;
     const currentEnvPassword = process.env.ADMIN_PASSWORD;
 
     if (!currentEnvPassword || password !== currentEnvPassword) {
-        return res.status(403).json({ success: false, message: "Şifrə səhvdir!" });
+        return res.status(403).json({
+            success: false,
+            message: 'Şifrə səhvdir!'
+        });
     }
-    return res.json({ success: true, message: "Şifrə doğrudur!" });
+
+    return res.json({
+        success: true,
+        message: 'Şifrə doğrudur!'
+    });
 });
+
+// =====================================================
+// XƏBƏRLƏRİ OXUMA
+// =====================================================
 
 app.get('/api/news', async (req, res) => {
     try {
@@ -102,119 +222,205 @@ app.get('/api/news', async (req, res) => {
 
         res.json(data || []);
     } catch (err) {
-        console.error("Məlumatları oxumaq xətası:", err);
-        res.status(500).json({ success: false, message: "Server xətası" });
+        console.error('Məlumatları oxumaq xətası:', err);
+
+        res.status(500).json({
+            success: false,
+            message: 'Server xətası'
+        });
     }
 });
 
-app.post('/api/news', adminLimiter, upload.fields([
-    { name: 'sekil', maxCount: 1 },
-    { name: 'newsVideoFile', maxCount: 1 }
-]), async (req, res) => {
-    const { title, content, category, password, date, createdAt, videoUrl, neverDelete, pinned } = req.body;
-    const currentEnvPassword = process.env.ADMIN_PASSWORD;
+// =====================================================
+// XƏBƏR ƏLAVƏ ETMƏ
+// ŞƏKİL VƏ VİDEO EYNİ NEWS BUCKET-Ə YÜKLƏNİR
+// =====================================================
 
-    if (!currentEnvPassword || password !== currentEnvPassword) {
-        return res.status(403).json({ success: false, message: "Admin şifrəsi yanlışdır!" });
-    }
+app.post(
+    '/api/news',
+    adminLimiter,
+    upload.fields([
+        { name: 'sekil', maxCount: 1 },
+        { name: 'newsVideoFile', maxCount: 1 }
+    ]),
+    async (req, res) => {
 
-    if (!title || !content) {
-        return res.status(400).json({ success: false, message: "Başlıq və mətn mütləqdir!" });
-    }
-
-    try {
-        const cat = category && category.trim() !== "" ? category : "Maraqlı";
-        
-        let sekilData = "";
-        if (req.files && req.files['sekil'] && req.files['sekil'][0]) {
-            const file = req.files['sekil'][0];
-            const b64 = Buffer.from(file.buffer).toString('base64');
-            sekilData = `data:${file.mimetype};base64,${b64}`;
-        }
-
-        let videoFileUrl = "";
-        if (req.files && req.files['newsVideoFile'] && req.files['newsVideoFile'][0]) {
-            const vFile = req.files['newsVideoFile'][0];
-            const fileName = `video_${Date.now()}_${vFile.originalname}`;
-
-            const { error: uploadError } = await supabase.storage
-                .from('news')
-                .upload(fileName, vFile.buffer, {
-                    contentType: vFile.mimetype,
-                    upsert: true
-                });
-
-            if (uploadError) {
-                console.error("Video yüklənmə xətası:", uploadError);
-                return res.status(500).json({ success: false, message: "Video yüklənə bilmədi: " + uploadError.message });
-            }
-
-            const { data: publicURLData } = supabase.storage
-                .from('news')
-                .getPublicUrl(fileName);
-                
-            videoFileUrl = publicURLData.publicUrl;
-        }
-
-        const timeVal = createdAt ? Number(createdAt) : Date.now();
-
-        const newNews = {
-            id: Date.now(),
+        const {
             title,
             content,
-            category: cat,
-            sekil: sekilData,
-            videoFile: videoFileUrl,
-            videoUrl: videoUrl || "",
-            // Supabase cədvəlinə tam uyğun tip ötürmələri:
-            neverDelete: (neverDelete === "true" || neverDelete === true) ? "true" : "false",
-            pinned: pinned === "true" || pinned === true,
-            date: date || new Date().toLocaleString('az-AZ'),
-            timestamp: timeVal,
-            createdAt: timeVal,
-            likes: 0,
-            views: 0,
-            comments: []
-        };
+            category,
+            password,
+            date,
+            createdAt,
+            videoUrl,
+            neverDelete,
+            pinned
+        } = req.body;
 
-        const { data, error } = await supabase
-            .from('news')
-            .insert([newNews])
-            .select();
+        const currentEnvPassword = process.env.ADMIN_PASSWORD;
 
-        if (error) throw error;
+        if (!currentEnvPassword || password !== currentEnvPassword) {
+            return res.status(403).json({
+                success: false,
+                message: 'Admin şifrəsi yanlışdır!'
+            });
+        }
 
-        res.json({ success: true, message: "Xəbər uğurla paylaşıldı!", data });
-    } catch (err) {
-        console.error("Xəbər əlavəetmə xətası:", err);
-        res.status(500).json({ success: false, message: "Xəbər saxlanılan zaman xəta oldu" });
+        if (!title || !content) {
+            return res.status(400).json({
+                success: false,
+                message: 'Başlıq və mətn mütləqdir!'
+            });
+        }
+
+        try {
+            const cat =
+                category && category.trim() !== ''
+                    ? category
+                    : 'Maraqlı';
+
+            let sekilData = '';
+            let videoFileUrl = '';
+
+            // -----------------------------------------
+            // ŞƏKİLİ NEWS BUCKET-Ə YÜKLƏ
+            // -----------------------------------------
+
+            if (
+                req.files &&
+                req.files['sekil'] &&
+                req.files['sekil'][0]
+            ) {
+                const imageFile = req.files['sekil'][0];
+
+                sekilData = await uploadNewsFile(
+                    imageFile,
+                    'image'
+                );
+
+                console.log('✅ Şəkil yükləndi:', sekilData);
+            }
+
+            // -----------------------------------------
+            // VİDEONU NEWS BUCKET-Ə YÜKLƏ
+            // -----------------------------------------
+
+            if (
+                req.files &&
+                req.files['newsVideoFile'] &&
+                req.files['newsVideoFile'][0]
+            ) {
+                const videoFile = req.files['newsVideoFile'][0];
+
+                videoFileUrl = await uploadNewsFile(
+                    videoFile,
+                    'video'
+                );
+
+                console.log('✅ Video yükləndi:', videoFileUrl);
+            }
+
+            const timeVal = createdAt
+                ? Number(createdAt)
+                : Date.now();
+
+            const newNews = {
+                id: Date.now(),
+                title,
+                content,
+                category: cat,
+
+                // ŞƏKİLİN URL-İ
+                sekil: sekilData,
+
+                // VİDEONUN URL-İ
+                videoFile: videoFileUrl,
+
+                videoUrl: videoUrl || '',
+
+                neverDelete:
+                    neverDelete === 'true' || neverDelete === true
+                        ? 'true'
+                        : 'false',
+
+                pinned:
+                    pinned === 'true' || pinned === true,
+
+                date: date || new Date().toLocaleString('az-AZ'),
+                timestamp: timeVal,
+                createdAt: timeVal,
+                likes: 0,
+                views: 0,
+                comments: []
+            };
+
+            const { data, error } = await supabase
+                .from('news')
+                .insert([newNews])
+                .select();
+
+            if (error) throw error;
+
+            return res.json({
+                success: true,
+                message: 'Xəbər uğurla paylaşıldı!',
+                data
+            });
+
+        } catch (err) {
+            console.error('Xəbər əlavəetmə xətası:', err);
+
+            return res.status(500).json({
+                success: false,
+                message: 'Xəbər saxlanılan zaman xəta oldu: ' + err.message
+            });
+        }
     }
-});
+);
 
-// 📌 Silmə funksiyası (Headers və Body qəbulu ilə)
+// =====================================================
+// XƏBƏR SİLMƏ
+// =====================================================
+
 app.delete('/api/news/:id', adminLimiter, async (req, res) => {
-    const password = req.headers['x-password'] || req.body?.password;
+    const password =
+        req.headers['x-password'] || req.body?.password;
+
     const newsId = req.params.id;
     const currentEnvPassword = process.env.ADMIN_PASSWORD;
 
     if (!currentEnvPassword || password !== currentEnvPassword) {
-        return res.status(403).json({ success: false, message: "Admin şifrəsi yanlışdır!" });
+        return res.status(403).json({
+            success: false,
+            message: 'Admin şifrəsi yanlışdır!'
+        });
     }
 
     try {
-        const { error: deleteError } = await supabase
+        const { error } = await supabase
             .from('news')
             .delete()
             .eq('id', newsId);
 
-        if (deleteError) throw deleteError;
+        if (error) throw error;
 
-        res.json({ success: true, message: "Xəbər silindi!" });
+        res.json({
+            success: true,
+            message: 'Xəbər silindi!'
+        });
     } catch (err) {
-        console.error("Silinmə xətası:", err);
-        res.status(500).json({ success: false, message: "Silinmə zamanı xəta oldu" });
+        console.error('Silinmə xətası:', err);
+
+        res.status(500).json({
+            success: false,
+            message: 'Silinmə zamanı xəta oldu'
+        });
     }
 });
+
+// =====================================================
+// BƏYƏNMƏ
+// =====================================================
 
 app.post('/api/news/:id/like', async (req, res) => {
     try {
@@ -227,24 +433,38 @@ app.post('/api/news/:id/like', async (req, res) => {
             .single();
 
         if (fetchError || !item) {
-            return res.status(404).json({ success: false, message: "Xəbər tapılmadı" });
+            return res.status(404).json({
+                success: false,
+                message: 'Xəbər tapılmadı'
+            });
         }
 
         const newLikes = (item.likes || 0) + 1;
 
-        const { error: updateError } = await supabase
+        const { error } = await supabase
             .from('news')
             .update({ likes: newLikes })
             .eq('id', newsId);
 
-        if (updateError) throw updateError;
+        if (error) throw error;
 
-        res.json({ success: true, likes: newLikes });
+        res.json({
+            success: true,
+            likes: newLikes
+        });
     } catch (err) {
-        console.error("Like xətası:", err);
-        res.status(500).json({ success: false, message: "Xəta baş verdi" });
+        console.error('Like xətası:', err);
+
+        res.status(500).json({
+            success: false,
+            message: 'Xəta baş verdi'
+        });
     }
 });
+
+// =====================================================
+// BAXIŞ SAYI
+// =====================================================
 
 app.post('/api/news/:id/view', async (req, res) => {
     try {
@@ -257,44 +477,70 @@ app.post('/api/news/:id/view', async (req, res) => {
             .single();
 
         if (fetchError || !item) {
-            return res.status(404).json({ success: false, message: "Xəbər tapılmadı" });
+            return res.status(404).json({
+                success: false,
+                message: 'Xəbər tapılmadı'
+            });
         }
 
         const newViews = (item.views || 0) + 1;
 
-        const { error: updateError } = await supabase
+        const { error } = await supabase
             .from('news')
             .update({ views: newViews })
             .eq('id', newsId);
 
-        if (updateError) throw updateError;
+        if (error) throw error;
 
-        res.json({ success: true, views: newViews });
+        res.json({
+            success: true,
+            views: newViews
+        });
     } catch (err) {
-        console.error("Baxış sayı xətası:", err);
-        res.status(500).json({ success: false, message: "Xəta baş verdi" });
+        console.error('Baxış sayı xətası:', err);
+
+        res.status(500).json({
+            success: false,
+            message: 'Xəta baş verdi'
+        });
     }
 });
 
+// =====================================================
+// GÜNLÜK ZİYARƏT
+// =====================================================
+
 app.post('/api/site/daily-visit', async (req, res) => {
     try {
-        const { date } = req.body; 
-        if (!date) return res.status(400).json({ success: false });
+        const { date } = req.body;
 
-        const { data: existing } = await supabase
+        if (!date) {
+            return res.status(400).json({
+                success: false
+            });
+        }
+
+        const { data: existing, error: findError } = await supabase
             .from('news')
             .select('id, views')
             .eq('category', 'SYSTEM_VISITS')
             .eq('title', date)
             .maybeSingle();
 
+        if (findError) throw findError;
+
         if (existing) {
-            await supabase
+            const { error } = await supabase
                 .from('news')
-                .update({ views: (existing.views || 0) + 1 })
+                .update({
+                    views: (existing.views || 0) + 1
+                })
                 .eq('id', existing.id);
+
+            if (error) throw error;
+
         } else {
-            await supabase
+            const { error } = await supabase
                 .from('news')
                 .insert([{
                     id: Date.now(),
@@ -304,14 +550,24 @@ app.post('/api/site/daily-visit', async (req, res) => {
                     views: 1,
                     createdAt: Date.now()
                 }]);
+
+            if (error) throw error;
         }
 
         res.json({ success: true });
+
     } catch (err) {
-        console.error("Günlük ziyarət xətası:", err);
-        res.status(500).json({ success: false });
+        console.error('Günlük ziyarət xətası:', err);
+
+        res.status(500).json({
+            success: false
+        });
     }
 });
+
+// =====================================================
+// GÜNLÜK STATİSTİKA
+// =====================================================
 
 app.get('/api/site/daily-stats', async (req, res) => {
     try {
@@ -329,24 +585,42 @@ app.get('/api/site/daily-stats', async (req, res) => {
             visits: item.views || 0
         }));
 
-        res.json({ success: true, stats });
+        res.json({
+            success: true,
+            stats
+        });
+
     } catch (err) {
-        console.error("Günlük statistika oxuma xətası:", err);
-        res.status(500).json({ success: false, stats: [] });
+        console.error('Günlük statistika oxuma xətası:', err);
+
+        res.status(500).json({
+            success: false,
+            stats: []
+        });
     }
 });
+
+// =====================================================
+// ŞƏRH ƏLAVƏ ETMƏ
+// =====================================================
 
 app.post('/api/news/:id/comment', async (req, res) => {
     try {
         const newsId = req.params.id;
         const { comment, username } = req.body;
 
-        if (!comment || comment.trim() === "") {
-            return res.status(400).json({ success: false, message: "Şərh boş ola bilməz!" });
+        if (!comment || comment.trim() === '') {
+            return res.status(400).json({
+                success: false,
+                message: 'Şərh boş ola bilməz!'
+            });
         }
 
         if (comment.length > 500) {
-            return res.status(400).json({ success: false, message: "Şərh 500 simvoldan uzun ola bilməz!" });
+            return res.status(400).json({
+                success: false,
+                message: 'Şərh 500 simvoldan uzun ola bilməz!'
+            });
         }
 
         const { data: item, error: fetchError } = await supabase
@@ -356,68 +630,116 @@ app.post('/api/news/:id/comment', async (req, res) => {
             .single();
 
         if (fetchError || !item) {
-            return res.status(404).json({ success: false, message: "Xəbər tapılmadı" });
+            return res.status(404).json({
+                success: false,
+                message: 'Xəbər tapılmadı'
+            });
         }
 
         const comments = item.comments || [];
+
         const newComment = {
             id: Date.now().toString(),
             text: comment.trim(),
-            user: username && username.trim() !== "" ? username.trim() : "Oxucu"
+            user:
+                username && username.trim() !== ''
+                    ? username.trim()
+                    : 'Oxucu'
         };
+
         comments.push(newComment);
 
-        const { error: updateError } = await supabase
+        const { error } = await supabase
             .from('news')
-            .update({ comments: comments })
+            .update({ comments })
             .eq('id', newsId);
 
-        if (updateError) throw updateError;
+        if (error) throw error;
 
-        res.json({ success: true, comments: comments });
+        res.json({
+            success: true,
+            comments
+        });
+
     } catch (err) {
-        console.error("Şərh əlavəetmə xətası:", err);
-        res.status(500).json({ success: false, message: "Xəta baş verdi" });
+        console.error('Şərh əlavəetmə xətası:', err);
+
+        res.status(500).json({
+            success: false,
+            message: 'Xəta baş verdi'
+        });
     }
 });
 
-app.delete('/api/news/:newsId/comment/:commentId', adminLimiter, async (req, res) => {
-    try {
-        const password = req.headers['x-password'] || req.body?.password;
-        const newsId = req.params.newsId;
-        const commentId = req.params.commentId;
-        const currentEnvPassword = process.env.ADMIN_PASSWORD;
+// =====================================================
+// ŞƏRH SİLMƏ
+// =====================================================
 
-        if (!currentEnvPassword || password !== currentEnvPassword) {
-            return res.status(403).json({ success: false, message: "Admin şifrəsi yanlışdır!" });
+app.delete(
+    '/api/news/:newsId/comment/:commentId',
+    adminLimiter,
+    async (req, res) => {
+        try {
+            const password =
+                req.headers['x-password'] || req.body?.password;
+
+            const newsId = req.params.newsId;
+            const commentId = req.params.commentId;
+
+            const currentEnvPassword = process.env.ADMIN_PASSWORD;
+
+            if (!currentEnvPassword || password !== currentEnvPassword) {
+                return res.status(403).json({
+                    success: false,
+                    message: 'Admin şifrəsi yanlışdır!'
+                });
+            }
+
+            const { data: item, error: fetchError } = await supabase
+                .from('news')
+                .select('comments')
+                .eq('id', newsId)
+                .single();
+
+            if (fetchError || !item) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Xəbər və ya şərh tapılmadı'
+                });
+            }
+
+            let comments = item.comments || [];
+
+            comments = comments.filter(
+                c => String(c.id) !== String(commentId)
+            );
+
+            const { error } = await supabase
+                .from('news')
+                .update({ comments })
+                .eq('id', newsId);
+
+            if (error) throw error;
+
+            res.json({
+                success: true,
+                comments
+            });
+
+        } catch (err) {
+            console.error('Şərh silmə xətası:', err);
+
+            res.status(500).json({
+                success: false,
+                message: 'Silinmə zamanı xəta oldu'
+            });
         }
-
-        const { data: item, error: fetchError } = await supabase
-            .from('news')
-            .select('comments')
-            .eq('id', newsId)
-            .single();
-
-        if (fetchError || !item) {
-            return res.status(404).json({ success: false, message: "Xəbər və ya şərh tapılmadı" });
-        }
-
-        let comments = item.comments || [];
-        comments = comments.filter(c => String(c.id) !== commentId);
-
-        const { error: updateDate } = await supabase
-            .from('news')
-            .update({ comments: comments })
-            .eq('id', newsId);
-
-        if (updateDate) throw updateDate;
-
-        res.json({ success: true, comments: comments });
-    } catch (err) {
-        console.error("Şərh silmə xətası:", err);
-        res.status(500).json({ success: false, message: "Silinmə zamanı xəta oldu" });
     }
-});
+);
+
+// =====================================================
+// SERVERİ BAŞLAT
+// =====================================================
 
 app.listen(PORT, () => {
     console.log(`Server aktivdir: http://localhost:${PORT}`);
