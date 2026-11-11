@@ -142,13 +142,10 @@ const translations = {
 
 const categoryTranslations = {
   "Hamısı":{az:"Hamısı",en:"All",de:"Alle",tr:"Tümü",ru:"Все",es:"Todo",fr:"Tout",it:"Tutti",ar:"الكل",zh:"全部"},
-  
-const categoryTranslations = {
-  "Hamısı": {az:"Hamısı",en:"All",de:"Alle",tr:"Tümü",ru:"Все",es:"Todo",fr:"Tout",it:"Tutti",ar:"الكل",zh:"全部"},
-  "Dünya kəşfləri": {az:"Dünya kəşfləri",en:"World Discoveries",de:"Entdeckungen der Welt",tr:"Dünya Keşifleri",ru:"Открытия мира",es:"Descubrimientos del mundo",fr:"Découvertes du monde",it:"Scoperte del mondo",ar:"اكتشافات العالم",zh:"世界探索"},
-  "Gözəl yerlər": {az:"Gözəl yerlər",en:"Beautiful Places",de:"Schöne Orte",tr:"Güzel Yerler",ru:"Красивые места",es:"Lugares hermosos",fr:"Beaux endroits",it:"Luoghi bellissimi",ar:"أماكن جميلة",zh:"美丽的地方"},
-  "Maraqlı": {az:"Maraqlı",en:"Interesting",de:"Interessant",tr:"İlginç",ru:"Интересное",es:"Interesante",fr:"Intéressant",it:"Interessante",ar:"مثير للاهتمام",zh:"有趣"},
-  "İdman": {az:"İdman",en:"Sports",de:"Sport",tr:"Spor",ru:"Спорт",es:"Deportes",fr:"Sports",it:"Sport",ar:"رياضة",zh:"体育"}
+  "Siyasət":{az:"Siyasət",en:"Politics",de:"Politik",tr:"Siyaset",ru:"Политика",es:"Política",fr:"Politique",it:"Politica",ar:"سياسة",zh:"政治"},
+  "İdman":{az:"İdman",en:"Sports",de:"Sport",tr:"Spor",ru:"Спорт",es:"Deportes",fr:"Sports",it:"Sport",ar:"رياضة",zh:"体育"},
+  "İqtisadiyyat":{az:"İqtisadiyyat",en:"Economy",de:"Wirtschaft",tr:"Ekonomi",ru:"Экономика",es:"Economía",fr:"Économie",it:"Economia",ar:"اقتصاد",zh:"经济"},
+  "Maraqlı":{az:"Maraqlı",en:"Interesting",de:"Interessant",tr:"İlginç",ru:"Интересно",es:"Interesante",fr:"Intéressant",it:"Interessante",ar:"مثير للاهتمام",zh:"趣闻"}
 };
 
 const badWords = [
@@ -587,7 +584,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     const text=encodeURIComponent(`📢 *${title}*\n\nƏtraflı oxu: ${url}`);
     window.open(`https://api.whatsapp.com/send?text=${text}`,"_blank");
   };
-window.addComment=function(id) {
+  window.addComment=function(id) {
     const userInput=document.getElementById(`comment-user-${id}`);
     const commentInput=document.getElementById(`comment-input-${id}`)||document.getElementById(`comment-text-${id}`);
     const username=userInput?userInput.value.trim():"";
@@ -727,7 +724,7 @@ window.addComment=function(id) {
   };
 
   window.renderCategoryButtons=async function() {
-    const defaults=["Hamısı","Dünya kəşfləri","Gözəl yerlər","Maraqlı","İdman"];
+    const defaults=["Hamısı","Siyasət","İdman","İqtisadiyyat","Maraqlı"];
     const categories=new Set(defaults);
 
     for(const news of allNewsData) {
@@ -984,7 +981,7 @@ window.addComment=function(id) {
       const likes=Number(news.likes)||0;
       const views=Number(news.views)||0;
       const newsURL=window.location.origin+
-        `/sayt.html?id=${encodeURIComponent(newsId)}`;
+        `/news.html?id=${encodeURIComponent(newsId)}`;
 
       const safeID=encodeURIComponent(newsId);
 
