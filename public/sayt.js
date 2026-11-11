@@ -926,56 +926,137 @@ document.addEventListener("DOMContentLoaded",()=>{
         `;
       }
 
-      let videoHTML="";
+            let videoHTML="";
       const videoFile=news.videoFile||news.video||"";
-      const videoUrl=news.videoUrl||"";
+      const videoUrl=(news.videoUrl||"").trim();
+
+      function getVideoHTML(rawUrl) {
+        let url=String(rawUrl||"").trim();
+        if(!url) return "";
+
+        url=url.replace(/&amp;/g,"&");
+
+        let parsed;
+        try {
+          parsed=new URL(url);
+          if(!["http:","https:"].includes(parsed.protocol)) return "";
+        } catch(e) {
+          return "";
+        }
+
+        const host=parsed.hostname.toLowerCase().replace(/^www\./,"");
+
+        // YOUTUBE: adi video, Shorts və youtu.be
+        if(host==="youtube.com"||host==="m.youtube.com"||host==="youtu.be") {
+          let id="";
+
+          if(host==="youtu.be") {
+            id=parsed.pathname.split("/").filter(Boolean)[0]||"";
+          } else {
+            id=parsed.searchParams.get("v")||"";
+            const parts=parsed.pathname.split("/").filter(Boolean);
+
+            if(!id && ["shorts","embed","live"].includes(parts[0])) {
+              id=parts[1]||"";
+            }
+          }
+
+          if(!/^[a-zA-Z0-9_-]{11}$/.test(id)) return "";
+
+          return `
+            <div style="position:relative;width:100%;aspect-ratio:16/9;margin:14px 0;">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/${id}"
+                title="YouTube video"
+                loading="lazy"
+                style="position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px;"
+                allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>`;
+        }
+
+        // TIKTOK: video linkləri
+        if(host==="tiktok.com"||host==="m.tiktok.com"||host==="vm.tiktok.com"||host==="vt.tiktok.com") {
+          const match=parsed.pathname.match(/\/video\/(\d+)/);
+
+          if(match) {
+            return `
+              <div style="width:100%;max-width:420px;margin:14px auto;">
+                <iframe
+                  src="https://www.tiktok.com/embed/v2/${match[1]}"
+                  title="TikTok video"
+                  loading="lazy"
+                  style="width:100%;height:600px;border:0;border-radius:12px;"
+                  allow="fullscreen"
+                  allowfullscreen>
+                </iframe>
+              </div>`;
+          }
+
+          return `
+            <div style="margin:14px 0;padding:14px;background:var(--bg-primary);border-radius:12px;">
+              <a href="${escapeHTML(parsed.href)}" target="_blank" rel="noopener noreferrer">
+                🎵 TikTok videosunu aç
+              </a>
+            </div>`;
+        }
+
+        // INSTAGRAM: Reels və paylaşımlar
+        if(host==="instagram.com"||host==="m.instagram.com") {
+          const match=parsed.pathname.match(/^\/(reel|reels|p|tv)\/([a-zA-Z0-9_-]+)/);
+
+          if(match) {
+            return `
+              <div style="width:100%;max-width:540px;margin:14px auto;">
+                <iframe
+                  src="https://www.instagram.com/${match[1]}/${match[2]}/embed/"
+                  title="Instagram video"
+                  loading="lazy"
+                  style="width:100%;height:600px;border:0;border-radius:12px;"
+                  allowfullscreen>
+                </iframe>
+              </div>`;
+          }
+
+          return `
+            <div style="margin:14px 0;padding:14px;background:var(--bg-primary);border-radius:12px;">
+              <a href="${escapeHTML(parsed.href)}" target="_blank" rel="noopener noreferrer">
+                📸 Instagram paylaşımını aç
+              </a>
+            </div>`;
+        }
+
+        // Birbaşa MP4 video
+        if(/\.mp4$/i.test(parsed.pathname)) {
+          return `
+            <video controls playsinline preload="metadata"
+              class="news-media"
+              style="width:100%;max-height:450px;border-radius:12px;margin:14px 0;">
+              <source src="${escapeHTML(parsed.href)}" type="video/mp4">
+            </video>`;
+        }
+
+        // Digər video linkləri
+        return `
+          <div style="margin:14px 0;padding:14px;background:var(--bg-primary);border-radius:12px;">
+            <a href="${escapeHTML(parsed.href)}" target="_blank" rel="noopener noreferrer">
+              ▶️ Videonu aç
+            </a>
+          </div>`;
+      }
 
       if(videoFile) {
         videoHTML=`
-          <video controls class="news-media"
+          <video controls playsinline class="news-media"
             preload="metadata"
             style="width:100%;max-height:380px;border-radius:12px;margin:14px 0;">
             <source src="${escapeHTML(videoFile)}" type="video/mp4">
             Brauzeriniz videonu dəstəkləmir.
           </video>`;
       } else if(videoUrl) {
-        if(videoUrl.includes("youtube.com")||videoUrl.includes("youtu.be")) {
-          let embedURL=videoUrl;
-
-          try {
-            const parsed=new URL(videoUrl);
-            let videoID="";
-
-            if(parsed.hostname.includes("youtu.be")) {
-              videoID=parsed.pathname.slice(1);
-            } else {
-              videoID=parsed.searchParams.get("v")||"";
-              if(!videoID && parsed.pathname.includes("/embed/")) {
-                videoID=parsed.pathname.split("/embed/")[1].split("/")[0];
-              }
-            }
-
-            if(videoID) embedURL=`https://www.youtube.com/embed/${encodeURIComponent(videoID)}`;
-          } catch(error) {
-            console.warn("YouTube linki yoxlanmadı:",error);
-          }
-
-          videoHTML=`
-            <div style="position:relative;padding-bottom:56.25%;height:0;margin:14px 0;">
-              <iframe src="${escapeHTML(embedURL)}"
-                style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:12px;"
-                loading="lazy"
-                allowfullscreen></iframe>
-            </div>`;
-        } else {
-          videoHTML=`
-            <video controls class="news-media"
-              preload="metadata"
-              style="width:100%;max-height:380px;border-radius:12px;margin:14px 0;">
-              <source src="${escapeHTML(videoUrl)}" type="video/mp4">
-              Brauzeriniz videonu dəstəkləmir.
-            </video>`;
-        }
+        videoHTML=getVideoHTML(videoUrl);
       }
 
       const likes=Number(news.likes)||0;
