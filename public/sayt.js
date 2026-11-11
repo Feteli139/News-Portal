@@ -981,7 +981,7 @@ document.addEventListener("DOMContentLoaded",()=>{
       const likes=Number(news.likes)||0;
       const views=Number(news.views)||0;
       const newsURL=window.location.origin+
-        `/news.html?id=${encodeURIComponent(newsId)}`;
+        `/sayt.html?id=${encodeURIComponent(newsId)}`;
 
       const safeID=encodeURIComponent(newsId);
 
