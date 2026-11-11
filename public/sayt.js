@@ -727,7 +727,7 @@ window.addComment=function(id) {
   };
 
   window.renderCategoryButtons=async function() {
-    const defaults=["Hamısı","Siyasət","İdman","İqtisadiyyat","Maraqlı"];
+    const defaults=["Hamısı","Dünya kəşfləri","Gözəl yerlər","Maraqlı","İdman"];
     const categories=new Set(defaults);
 
     for(const news of allNewsData) {
