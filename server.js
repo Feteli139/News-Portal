@@ -131,7 +131,7 @@ async function uploadNewsFile(file, fileType) {
 
 async function cleanOldNews() {
     try {
-        const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
+        const SEVEN_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
         const now = Date.now();
 
         const { data: newsList, error: fetchError } = await supabase
