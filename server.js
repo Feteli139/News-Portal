@@ -156,7 +156,7 @@ async function cleanOldNews() {
             if (
                 !isNeverDelete &&
                 created > 0 &&
-                now - created > THREE_DAYS_MS
+                now - created > SEVEN_DAYS_MS
             ) {
                 const { error } = await supabase
                     .from('news')
